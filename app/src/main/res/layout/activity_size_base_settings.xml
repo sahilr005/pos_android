@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- activity_main.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical">
+
+    <!-- activity_main.xml -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/dropdownvalue">
+
+        <TableLayout
+            android:id="@+id/SizeBaseSettingTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*">
+
+            <!-- Empty TableRow for dynamic population -->
+            <TableRow
+                android:id="@+id/size_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </TableLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,23 @@
+<!-- item_csv_row.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/textColumn1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+    <TextView
+        android:id="@+id/textColumn2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+    <!-- Add more TextViews for each column in the CSV file -->
+
+</LinearLayout>

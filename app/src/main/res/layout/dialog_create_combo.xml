@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Combo"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/categorySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+         />
+
+    <EditText
+        android:id="@+id/comboNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Combo Name" />
+
+    <EditText
+        android:id="@+id/totCostEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Total Cost"
+        android:inputType="numberDecimal" />
+
+    <Spinner
+        android:id="@+id/discountTypeSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/discountValueEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Discount Value"
+        android:inputType="numberDecimal" />
+
+
+</LinearLayout>

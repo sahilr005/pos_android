@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".EditItems">
+
+    <EditText
+        android:id="@+id/editTextCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/edittext_background"
+        android:hint="Category"
+        android:minHeight="48dp"
+        android:paddingLeft="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPickupPrice"
+        app:layout_constraintEnd_toStartOf="@+id/editTextItemName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextItemName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/edittext_background"
+        android:hint="Item Name"
+        android:minHeight="48dp"
+        android:paddingLeft="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextDeliveryPrice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/editTextCategory"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- EditText for Delivery Price -->
+    <EditText
+        android:id="@+id/editTextPickupPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="10dp"
+        android:hint="Pickup Price"
+        android:minHeight="48dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintEnd_toStartOf="@+id/editTextDeliveryPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCategory" />
+
+    <!-- EditText for Eat In Price -->
+
+    <EditText
+        android:id="@+id/editTextDeliveryPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:hint="Delivery Price"
+        android:minHeight="48dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/editTextPickupPrice"
+        app:layout_constraintTop_toBottomOf="@+id/editTextItemName" />
+
+    <!-- EditText for Status -->
+    <EditText
+        android:id="@+id/editTextEatInPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="10dp"
+        android:hint="Eat In Price"
+        android:minHeight="48dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintEnd_toStartOf="@+id/editTextStatus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPickupPrice" />
+
+    <!-- Button to save changes -->
+
+    <EditText
+        android:id="@+id/editTextEatCostPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/edittext_background"
+        android:hint="Cost Price"
+        android:minHeight="48dp"
+        android:paddingLeft="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/editTextStock"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEatInPrice" />
+
+    <EditText
+        android:id="@+id/editTextMinStock"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/edittext_background"
+        android:hint="Min. Stock (Optional)"
+        android:minHeight="48dp"
+        android:paddingLeft="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/editTextDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEatCostPrice" />
+
+    <EditText
+        android:id="@+id/editTextStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:hint="Status"
+        android:minHeight="48dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextEatInPrice"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDeliveryPrice" />
+
+    <EditText
+        android:id="@+id/editTextStock"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/edittext_background"
+        android:hint="Stock (Optional)"
+        android:minHeight="48dp"
+        android:paddingLeft="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextEatCostPrice"
+        app:layout_constraintTop_toBottomOf="@+id/editTextStatus" />
+
+    <EditText
+        android:id="@+id/editTextDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/edittext_background"
+        android:hint="Description (Optional)"
+        android:minHeight="48dp"
+        android:paddingLeft="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextMinStock"
+        app:layout_constraintTop_toBottomOf="@+id/editTextStock" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="25dp"
+        android:text="Update"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescription"
+        tools:layout_editor_absoluteX="20dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:weightSum="4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSave">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ContainsBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:background="@drawable/button_selector"
+            android:text="Contains" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ExtraBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+
+            android:background="@drawable/button_selector"
+            android:text="Extra" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/SelectAnyBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+
+            android:background="@drawable/button_selector"
+            android:text="Select Any" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/PriceBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+
+            android:background="@drawable/button_selector"
+            android:text="Price" />
+
+    </LinearLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/chipContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:alignItems="stretch"
+        app:flexDirection="row"
+        app:flexWrap="wrap"
+        app:justifyContent="flex_start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
