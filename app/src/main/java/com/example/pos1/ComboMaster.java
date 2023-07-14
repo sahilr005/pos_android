@@ -40,7 +40,6 @@ public class ComboMaster extends AppCompatActivity {
         setContentView(R.layout.activity_combo_master);
         tableLayout = findViewById(R.id.comboMasterTable);
         createComboBtn = findViewById(R.id.createComboBtn);
-        createTableHeading();
 
         displayTableData();
 
@@ -79,9 +78,12 @@ public class ComboMaster extends AppCompatActivity {
     }
 
     private void displayTableData() {
+        tableLayout.removeAllViews();
+        createTableHeading();
+
         SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
         Cursor cursor = db.rawQuery("SELECT combo_mast.combo_id, combo_mast.catid, combo_mast.combo_name, combo_mast.totcost, combo_mast.discount_type, combo_mast.combocost, combo_mast.is_active, category_mast.catname FROM combo_mast INNER JOIN category_mast ON combo_mast.catid = category_mast.catid", null);
-        tableLayout.removeAllViews();
+
         while (cursor.moveToNext()) {
             @SuppressLint("Range") int combo_id = cursor.getInt(cursor.getColumnIndex("combo_id"));
             @SuppressLint("Range") int catid = cursor.getInt(cursor.getColumnIndex("catid"));
@@ -323,11 +325,11 @@ public class ComboMaster extends AppCompatActivity {
         Cursor cursor = db.rawQuery("SELECT * FROM combo_mast WHERE combo_id=?", new String[]{String.valueOf(comboId)});
 
         if (cursor.moveToFirst()) {
-            String categoryName = getCategoryNameById(cursor.getInt(cursor.getColumnIndex("catid")));
-            String comboName = cursor.getString(cursor.getColumnIndex("combo_name"));
-            double totalCost = cursor.getDouble(cursor.getColumnIndex("totcost"));
-            String discountType = cursor.getString(cursor.getColumnIndex("discount_type"));
-            double comboCost = cursor.getDouble(cursor.getColumnIndex("combocost"));
+            @SuppressLint("Range") String categoryName = getCategoryNameById(cursor.getInt(cursor.getColumnIndex("catid")));
+            @SuppressLint("Range") String comboName = cursor.getString(cursor.getColumnIndex("combo_name"));
+            @SuppressLint("Range") double totalCost = cursor.getDouble(cursor.getColumnIndex("totcost"));
+            @SuppressLint("Range") String discountType = cursor.getString(cursor.getColumnIndex("discount_type"));
+            @SuppressLint("Range") double comboCost = cursor.getDouble(cursor.getColumnIndex("combocost"));
 
             // Set the retrieved values in the dialog fields
             int categoryPosition = getCategoryPosition(categoryName);
@@ -384,7 +386,7 @@ public class ComboMaster extends AppCompatActivity {
         alertDialog.show();
     }
 
-
+    @SuppressLint("Range")
     private String getCategoryNameById(int categoryId) {
         SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
         Cursor cursor = db.rawQuery("SELECT catname FROM category_mast WHERE catid=?", new String[]{String.valueOf(categoryId)});

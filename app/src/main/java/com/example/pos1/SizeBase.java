@@ -1,6 +1,8 @@
 package com.example.pos1;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.view.Gravity;
 import android.widget.TableRow.LayoutParams;
 
@@ -114,12 +116,14 @@ public class SizeBase extends AppCompatActivity {
 
     private void displayTableData() {
         SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM size_mast", null);
+        Cursor cursor = db.rawQuery("SELECT size_mast.szid, size_mast.szname, category_mast.catname, size_mast.is_active, size_mast.uentdt " +
+                "FROM size_mast " +
+                "LEFT JOIN category_mast ON size_mast.cat_id = category_mast.catid", null);
 
         while (cursor.moveToNext()) {
             int szid = cursor.getInt(cursor.getColumnIndex("szid"));
             String szname = cursor.getString(cursor.getColumnIndex("szname"));
-            int catId = cursor.getInt(cursor.getColumnIndex("cat_id"));
+            String catname = cursor.getString(cursor.getColumnIndex("catname"));
             int isActive = cursor.getInt(cursor.getColumnIndex("is_active"));
             String uentdt = cursor.getString(cursor.getColumnIndex("uentdt"));
 
@@ -131,9 +135,14 @@ public class SizeBase extends AppCompatActivity {
 
             addDataTextView(dataRow, String.valueOf(szid));
             addDataTextView(dataRow, szname);
-            addDataTextView(dataRow, String.valueOf(catId));
-            addDataSwitch(dataRow, isActive == 1,szid);
 
+            if (catname != null) {
+                addDataTextView(dataRow, catname);
+            } else {
+                addDataTextView(dataRow, ""); // Display blank if catname is not found
+            }
+
+            addDataSwitch(dataRow, isActive == 1, szid);
             addDataTextView(dataRow, uentdt);
 
             tableLayout.addView(dataRow);
@@ -142,6 +151,7 @@ public class SizeBase extends AppCompatActivity {
         cursor.close();
         db.close();
     }
+
     private void addDataSwitch(TableRow row, boolean isChecked,int szid) {
         Switch switchWidget = new Switch(this);
         switchWidget.setChecked(isChecked);
@@ -254,11 +264,11 @@ public class SizeBase extends AppCompatActivity {
         Cursor cursor = db.rawQuery("SELECT * FROM base_mast", null);
 
         while (cursor.moveToNext()) {
-            int bid = cursor.getInt(cursor.getColumnIndex("bid"));
-            String bname = cursor.getString(cursor.getColumnIndex("bname"));
-            int isActive = cursor.getInt(cursor.getColumnIndex("is_active"));
-            int serverCheck = cursor.getInt(cursor.getColumnIndex("server_check"));
-            String uentdt = cursor.getString(cursor.getColumnIndex("uentdt"));
+            @SuppressLint("Range") int bid = cursor.getInt(cursor.getColumnIndex("bid"));
+            @SuppressLint("Range") String bname = cursor.getString(cursor.getColumnIndex("bname"));
+            @SuppressLint("Range") int isActive = cursor.getInt(cursor.getColumnIndex("is_active"));
+            @SuppressLint("Range") int serverCheck = cursor.getInt(cursor.getColumnIndex("server_check"));
+            @SuppressLint("Range") String uentdt = cursor.getString(cursor.getColumnIndex("uentdt"));
 
             // Create a row for the table data
             TableRow dataRow = new TableRow(this);

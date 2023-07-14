@@ -9,7 +9,7 @@ import android.view.View;
 
 public class Manager extends AppCompatActivity {
 
-    AppCompatButton categoryMaster,toppingMaster,uploadItems,UploadToppings,ItemMaster,SizeBase,CategorySizeSettings,SizeBaseSettingBtn,CategoryToppingSettings,comboMasterBtn;
+    AppCompatButton categoryMaster,toppingMaster,uploadItems,UploadToppings,ItemMaster,SizeBase,CategorySizeSettings,SizeBaseSettingBtn,CategoryToppingSettings,comboMasterBtn,happyHoursBtn,toppingTradePrice,staffScreenBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +24,9 @@ public class Manager extends AppCompatActivity {
         SizeBaseSettingBtn = findViewById(R.id.SizeBaseSettingBtn);
         CategoryToppingSettings = findViewById(R.id.CategoryToppingSettings);
         comboMasterBtn = findViewById(R.id.comboMasterBtn);
+        happyHoursBtn = findViewById(R.id.happyHoursBtn);
+        toppingTradePrice = findViewById(R.id.ToppingTradePriceBtn);
+        staffScreenBtn = findViewById(R.id.staffScreenBtn);
 
         categoryMaster.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,10 +92,32 @@ public class Manager extends AppCompatActivity {
                 Intent intent = new Intent(Manager.this,CategoryToppingSettings.class);
                 startActivity(intent);
             }
-        }); comboMasterBtn.setOnClickListener(new View.OnClickListener() {
+        });
+        comboMasterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Manager.this,ComboMaster.class);
+                startActivity(intent);
+            }
+        });
+        happyHoursBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Manager.this,HappyHours.class);
+                startActivity(intent);
+            }
+        });
+        toppingTradePrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Manager.this,ToppingTradePrice.class);
+                startActivity(intent);
+            }
+        });
+        staffScreenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Manager.this,StaffScreen.class);
                 startActivity(intent);
             }
         });

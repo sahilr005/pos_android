@@ -211,30 +211,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return dataList;
     }
 
-    public List<Category> getAllCategories() {
-        List<Category> categories = new ArrayList<>();
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT * FROM " + TABLE_CATEGORY_MAST;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Category category = new Category();
-                category.setCatId(cursor.getInt(cursor.getColumnIndex("catid")));
-                category.setCatName(cursor.getString(cursor.getColumnIndex("catname")));
-                category.setIs_active(Integer.parseInt(cursor.getString(cursor.getColumnIndex("is_active"))));
-
-                // Set values for other columns
-
-                categories.add(category);
-            } while (cursor.moveToNext());
-        }
-        Log.d("getAllCategories l", "getAllCategories: "+categories.size());
-        Log.d("getAllCategories cursor", "getAllCategories: "+cursor.getCount());
-        cursor.close();
-        return categories;
-    }
-
 }
 

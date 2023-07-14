@@ -2,8 +2,11 @@ package com.example.pos1;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,6 +32,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class CategorySizeSettings extends AppCompatActivity {
     List<CatData> categoryList; // List of category names from "category_mast" table
     List<SizeData> sizeList;
@@ -159,8 +164,8 @@ public class CategorySizeSettings extends AppCompatActivity {
         Cursor cursor = db.query("category_mast", columns, null, null, null, null, orderBy);
         if (cursor.moveToFirst()) {
             do {
-                int catid = cursor.getInt(cursor.getColumnIndex("catid"));
-                String catname = cursor.getString(cursor.getColumnIndex("catname"));
+                @SuppressLint("Range") int catid = cursor.getInt(cursor.getColumnIndex("catid"));
+                @SuppressLint("Range") String catname = cursor.getString(cursor.getColumnIndex("catname"));
                 CatData categoryData = new CatData(catid, catname);
                 categoryList.add(categoryData);
             } while (cursor.moveToNext());
@@ -181,8 +186,8 @@ public class CategorySizeSettings extends AppCompatActivity {
         Cursor cursor = db.query("size_mast", columns, null, null, null, null, orderBy);
         if (cursor.moveToFirst()) {
             do {
-                int szid = cursor.getInt(cursor.getColumnIndex("szid"));
-                String szname = cursor.getString(cursor.getColumnIndex("szname"));
+                @SuppressLint("Range") int szid = cursor.getInt(cursor.getColumnIndex("szid"));
+                @SuppressLint("Range") String szname = cursor.getString(cursor.getColumnIndex("szname"));
                 SizeData sizeData = new SizeData(szid, szname);
                 sizeList.add(sizeData);
             } while (cursor.moveToNext());
@@ -277,17 +282,91 @@ public class CategorySizeSettings extends AppCompatActivity {
                 dataRow.setBackgroundColor(Color.parseColor("#F2F2F2"));
             }
 
-            final int itemId = cursor.getInt(cursor.getColumnIndex("sbid"));
-            String column1Value = cursor.getString(cursor.getColumnIndex("catname"));
-            String column2Value = cursor.getString(cursor.getColumnIndex("szname"));
+            @SuppressLint("Range") final int itemId = cursor.getInt(cursor.getColumnIndex("sbid"));
+            @SuppressLint("Range") String column1Value = cursor.getString(cursor.getColumnIndex("catname"));
+            @SuppressLint("Range") String column2Value = cursor.getString(cursor.getColumnIndex("szname"));
             AppCompatButton column7Button = createTableCellButton("Edit", false);
 
             column7Button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // Retrieve the selected sbid value
+                    final int sbid = itemId;
 
+                    // Retrieve the selected category ID and size ID from the clicked row
+                    int selectedCategoryId = getCategoryFromTableData(sbid);
+                    int selectedSizeId = getSizeFromTableData(sbid);
+
+                    // Inflate the edit layout
+                    View editView = LayoutInflater.from(CategorySizeSettings.this).inflate(R.layout.activity_category_size, null);
+
+                    // Get references to the views in the edit layout
+                    Spinner categorySpinner = editView.findViewById(R.id.categorySpinner);
+                    Spinner sizeSpinner = editView.findViewById(R.id.sizeSpinner);
+                    Button saveButton = editView.findViewById(R.id.categorySaveBtn);
+                    Button cancelButton = editView.findViewById(R.id.categoryCancelBtn);
+
+                    // Create the ArrayAdapter for the category names
+                    ArrayAdapter<CatData> categoryAdapter = new CategoryDataAdapter(CategorySizeSettings.this, android.R.layout.simple_spinner_item, categoryList);
+                    categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    categorySpinner.setAdapter(categoryAdapter);
+
+                    // Create the ArrayAdapter for the size names
+                    ArrayAdapter<SizeData> sizeAdapter = new SizeDataAdapter(CategorySizeSettings.this, android.R.layout.simple_spinner_item, sizeList);
+                    sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    sizeSpinner.setAdapter(sizeAdapter);
+
+                    // Find the position of the selected category in the spinner
+                    int categoryPosition = getCategoryPosition(selectedCategoryId);
+                    if (categoryPosition != -1) {
+                        categorySpinner.setSelection(categoryPosition);
+                    }
+
+                    // Find the position of the selected size in the spinner
+                    int sizePosition = getSizePosition(selectedSizeId);
+                    if (sizePosition != -1) {
+                        sizeSpinner.setSelection(sizePosition);
+                    }
+
+                    // Create the AlertDialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CategorySizeSettings.this);
+                    builder.setView(editView);
+                    builder.setTitle("Edit Size Base Data");
+
+                    // Handle the save button click inside the AlertDialog
+                    builder.setPositiveButton(null, null);
+
+                    // Handle the cancel button click inside the AlertDialog
+                    builder.setNegativeButton(null, null);
+
+                    final AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                    // Override the positive button click listener to handle the save button click
+                    saveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Retrieve the selected category and size from the spinners
+                            CatData selectedCategoryData = (CatData) categorySpinner.getSelectedItem();
+                            SizeData selectedSizeData = (SizeData) sizeSpinner.getSelectedItem();
+
+                            // Update the corresponding record in the size_base_data table based on sbid
+                            updateSizeBaseData(sbid, selectedCategoryData.getCatid(), selectedSizeData.getSzid());
+
+                            // Dismiss the dialog
+                            dialog.dismiss();
+                        }
+                    });
+
+                    cancelButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
                 }
             });
+
 
             dataRow.addView(createTableCell(String.valueOf(itemId), false));
             dataRow.addView(createTableCell(column1Value, false));
@@ -341,6 +420,74 @@ public class CategorySizeSettings extends AppCompatActivity {
 
         db.close();
     }
+    private int getCategoryPosition(int categoryId) {
+        for (int i = 0; i < categoryList.size(); i++) {
+            CatData categoryData = categoryList.get(i);
+            if (categoryData.getCatid() == categoryId) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private int getSizePosition(int sizeId) {
+        for (int i = 0; i < sizeList.size(); i++) {
+            SizeData sizeData = sizeList.get(i);
+            if (sizeData.getSzid() == sizeId) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void updateSizeBaseData(int selectedItemId,int categoryId, int sizeId) {
+        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+
+        ContentValues values = new ContentValues();
+        values.put("catid", categoryId);
+        values.put("szid", sizeId);
+
+        int rowsAffected = db.update("size_base_data", values, "sbid=?", new String[]{String.valueOf(selectedItemId)});
+        if (rowsAffected > 0) {
+            Toast.makeText(CategorySizeSettings.this, "Data updated successfully", Toast.LENGTH_SHORT).show();
+            displaySizeBaseTableData();
+        } else {
+            Toast.makeText(CategorySizeSettings.this, "Failed to update data", Toast.LENGTH_SHORT).show();
+        }
+
+        db.close();
+    }
+
+    @SuppressLint("Range")
+    private int getCategoryFromTableData(int sbid) {
+        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+        int categoryId = 0;
+
+        Cursor cursor = db.rawQuery("SELECT catid FROM size_base_data WHERE sbid = ?", new String[]{String.valueOf(sbid)});
+        if (cursor.moveToFirst()) {
+            categoryId = cursor.getInt(cursor.getColumnIndex("catid"));
+        }
+        cursor.close();
+        db.close();
+
+        return categoryId;
+    }
+
+    @SuppressLint("Range")
+    private int getSizeFromTableData(int sbid) {
+        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+        int sizeId = 0;
+
+        Cursor cursor = db.rawQuery("SELECT szid FROM size_base_data WHERE sbid = ?", new String[]{String.valueOf(sbid)});
+        if (cursor.moveToFirst()) {
+            sizeId = cursor.getInt(cursor.getColumnIndex("szid"));
+        }
+        cursor.close();
+        db.close();
+
+        return sizeId;
+    }
+
 }
 
 class SizeData {

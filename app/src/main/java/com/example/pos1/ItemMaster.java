@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,10 +18,13 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ItemMaster extends AppCompatActivity {
 
@@ -88,7 +92,6 @@ public class ItemMaster extends AppCompatActivity {
         headerRow.addView(createTableCell("EAT IN PRICE",true));
         headerRow.addView(createTableCell("STATUS",true));
         headerRow.addView(createTableCell("ACTION",true));
-        // ...
 
         // Add the header row to the table
         tableLayout.addView(headerRow);
@@ -110,7 +113,7 @@ public class ItemMaster extends AppCompatActivity {
             @SuppressLint("Range") String column3Value = cursor.getString(cursor.getColumnIndex("pickup_price"));
             @SuppressLint("Range") String column4Value = cursor.getString(cursor.getColumnIndex("delivery_price"));
             @SuppressLint("Range") String column5Value = cursor.getString(cursor.getColumnIndex("eat_in_price"));
-            @SuppressLint("Range") String column6Value = cursor.getString(cursor.getColumnIndex("status")).equals("1")?"Active":"Inactive";
+            @SuppressLint("Range") int isActive = cursor.getInt(cursor.getColumnIndex("status"));
             AppCompatButton column7Button = createTableCellButton("Edit", false);
 
 
@@ -128,7 +131,8 @@ public class ItemMaster extends AppCompatActivity {
             dataRow.addView(createTableCell(column3Value,false));
             dataRow.addView(createTableCell(column4Value,false));
             dataRow.addView(createTableCell(column5Value,false));
-            dataRow.addView(createTableCell(column6Value,false));
+//            dataRow.addView(createTableCell(column6Value,false));
+            addDataSwitch(dataRow, isActive == 1,itemId);
             dataRow.addView(column7Button);
             // ...
 
@@ -140,7 +144,41 @@ public class ItemMaster extends AppCompatActivity {
         cursor.close();
         db.close();
     }
+    private void addDataSwitch(TableRow row, boolean isChecked,int id) {
+        Switch switchWidget = new Switch(this);
+        switchWidget.setChecked(isChecked);
+        TableRow.LayoutParams switchLayoutParams = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.WRAP_CONTENT
+        );
+        switchLayoutParams.gravity = Gravity.CENTER;  // Align the Switch to the start (left)
+        switchWidget.setLayoutParams(switchLayoutParams);
 
+        switchWidget.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int newIsActive = isChecked ? 1 : 0;
+
+                    updateSizeIsActiveValue(id, newIsActive);
+            }
+        });
+        row.addView(switchWidget);
+    }
+
+    private void updateSizeIsActiveValue(int id, int newIsActive) {
+        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+
+        ContentValues values = new ContentValues();
+        values.put("status", newIsActive);
+
+        int rowsAffected = db.update("item_master", values, "tid=?", new String[]{String.valueOf(id)});
+        if (rowsAffected > 0) {
+            Toast.makeText(this, "value updated successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Failed to update value", Toast.LENGTH_SHORT).show();
+        }
+        db.close();
+    }
     // Helper method to create a TextView as a table cell
     private AppCompatButton createTableCell(String text, boolean isHeaderCell) {
         AppCompatButton cell = new AppCompatButton(this);
@@ -172,6 +210,5 @@ public class ItemMaster extends AppCompatActivity {
         cell.setText(text);
         return cell;
     }
-
 
 }

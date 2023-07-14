@@ -193,7 +193,8 @@ public class UploadToppings extends AppCompatActivity {
         // Create topping_mast table
         db.execSQL("CREATE TABLE IF NOT EXISTS topping_mast (tid INTEGER PRIMARY KEY AUTOINCREMENT, tname TEXT, is_active INT, server_check INTEGER DEFAULT 0, uentdt TEXT)");
 
-        for (List<String> row : csvData) {
+        for (int i = 1; i < csvData.size(); i++) {
+            List<String> row = csvData.get(i);
             ContentValues values = new ContentValues();
             values.put("tname", getValueAtIndex(row, 0));
 
