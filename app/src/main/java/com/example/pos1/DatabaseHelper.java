@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return dateFormat.format(calendar.getTime());
     }
     private static final String DATABASE_NAME = "mydatabase.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_CATEGORY_MAST = "category_mast";
 
@@ -37,9 +37,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "name TEXT," +
                 "email TEXT)";
         db.execSQL(createUserTableQuery);
-        db.execSQL("CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,email	TEXT,phone TEXT,password TEXT,logo TEXT,is_login INTEGER,is_manager INTEGER,last_login	TEXT,device_id TEXT,server_check INTEGER DEFAULT 0, created_at TEXT,updated_at TEXT)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS category_mast (catid INTEGER PRIMARY KEY AUTOINCREMENT," +
+        db.execSQL("CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, phone TEXT, password TEXT, logo TEXT, is_login INTEGER, is_manager INTEGER, last_login TEXT, device_id TEXT, server_check INTEGER DEFAULT 0, created_at TEXT, updated_at TEXT)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS zone_mast (zone_id INTEGER PRIMARY KEY AUTOINCREMENT, zone_name VARCHAR (50), status BOOLEAN DEFAULT (1), server_check INTEGER DEFAULT (0), price DOUBLE (10, 2) DEFAULT (0))");
+
+        db.execSQL("CREATE TABLE category_mast (catid INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "catname TEXT UNIQUE, uentdt TEXT," +
                 "is_active INT,description TEXT," +
                 "is_deal INT DEFAULT 0,order_no TEXT," +
@@ -50,32 +53,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " is_combo BOOLEAN DEFAULT (0), web_catid INT DEFAULT 0," +
                 " contains TEXT, extras TEXT)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS suburbs (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, post_code TEXT,zone TEXT,price TEXT,server_check INTEGER DEFAULT 0,created_at TEXT )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS suburbs (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, post_code TEXT, zone INTEGER, server_check INTEGER DEFAULT 0)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS size_mast (szid INTEGER PRIMARY KEY AUTOINCREMENT, szname TEXT, cat_id INT, is_active INT, server_check INTEGER DEFAULT 0, uentdt TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS size_mast (smzid INTEGER PRIMARY KEY AUTOINCREMENT, szname TEXT, cat_id INT, is_active INT, server_check INTEGER DEFAULT 0, uentdt TEXT, szid INT)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS size_mast_data (szid INTEGER PRIMARY KEY AUTOINCREMENT, szname TEXT, is_active INT, server_check INTEGER DEFAULT 0, uentdt TEXT, system_defined BOOLEAN DEFAULT (0))");
+
+//        db.execSQL("CREATE TABLE IF NOT EXISTS sqlite_sequence(name,seq)");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS base_mast (bid INTEGER PRIMARY KEY AUTOINCREMENT,bname TEXT,is_active INT DEFAULT 1,server_check INTEGER DEFAULT 0, uentdt TEXT)");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS size_base_data (sbid INTEGER PRIMARY KEY AUTOINCREMENT,catid INT,szid INT, bid INT, server_check INTEGER DEFAULT 0, uent_dt TEXT)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS item_master (tid INTEGER PRIMARY KEY AUTOINCREMENT," +
+        db.execSQL("CREATE TABLE item_master (tid INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "cat_id TEXT,code TEXT, name TEXT,status INT DEFAULT 1," +
                 "pickup_price TEXT,delivery_price TEXT,eat_in_price TEXT,cost_price TEXT," +
                 "stock TEXT,min_stock TEXT,item_img TEXT,bar_code TEXT,descc TEXT," +
                 "contain TEXT,extra TEXT,prices TEXT, created_at TEXT, server_check INTEGER DEFAULT 0," +
                 " deactive_dt TEXT,is_combo BOOLEAN DEFAULT (0)," +
-                "itmtxt VARCHAR (120), btn_bg_color VARCHAR (10), btn_font_color VARCHAR (10))");
+                "itmtxt VARCHAR (120), btn_bg_color VARCHAR (10), btn_font_color VARCHAR (10)," +
+                " is_deleted INTEGER DEFAULT (0))");
 
 
         db.execSQL("CREATE TABLE IF NOT EXISTS item_any (id INTEGER PRIMARY KEY AUTOINCREMENT,itemid INT,name TEXT, how_many INT, order_num INT, is_must INT DEFAULT 0, topp_idz TEXT, server_check INTEGER DEFAULT 0, created_at TEXT)");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS topping_mast (tid INTEGER PRIMARY KEY AUTOINCREMENT, tname TEXT, is_active INT, server_check INTEGER DEFAULT 0, uentdt TEXT)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS topping_info (id INTEGER PRIMARY KEY AUTOINCREMENT, topp_id INT, szid INT, p_plus TEXT, p_double TEXT, p_h_plus TEXT, p_h_double TEXT, server_check INTEGER DEFAULT 0, created_at TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS topping_info (id INTEGER PRIMARY KEY AUTOINCREMENT, topp_id INT, szid INT, p_plus TEXT, p_double TEXT, p_h_plus TEXT, p_h_double TEXT, server_check INTEGER DEFAULT 0, created_at TEXT, catid INT DEFAULT 0)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS happy_hours (id INTEGER PRIMARY KEY AUTOINCREMENT,from_day TEXT,to_day TEXT, time_from TEXT, time_to TEXT, hh_num INT, created_at TEXT, server_check INTEGER DEFAULT 0, updated_at TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS happy_hours (id INTEGER PRIMARY KEY AUTOINCREMENT, tid INTEGER, distype CHAR (1), disval DOUBLE (8, 2), date_from DATE, date_to DATE, time_from TIME, time_to TIME, created_at TEXT, server_check INTEGER DEFAULT (0))");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS server (id INTEGER PRIMARY KEY AUTOINCREMENT, ip TEXT, is_parent INTEGER, multisystem INTEGER, server_check INTEGER DEFAULT 0, ref_id TEXT, updated_at TEXT, domain VARCHAR (150), webtoken VARCHAR (150), is_skip BOOLEAN DEFAULT(0))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS holiday_settings (hid INTEGER PRIMARY KEY AUTOINCREMENT, htitle VARCHAR (200), hmsg TEXT, is_active BOOLEAN DEFAULT (0))");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS order_cancel_settings (ocid INTEGER PRIMARY KEY AUTOINCREMENT, is_active BOOLEAN DEFAULT (0))");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS order_complete_time (tmid INTEGER PRIMARY KEY AUTOINCREMENT, walkintm INT (4) DEFAULT (0), order_take_time TIME)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS server (id INTEGER PRIMARY KEY AUTOINCREMENT, ip TEXT, is_parent INTEGER, multisystem INTEGER, server_check INTEGER DEFAULT 0, ref_id TEXT, updated_at TEXT, domain VARCHAR (150), webtoken VARCHAR (150), is_skip BOOLEAN DEFAULT(0), is_upload_item_csv BOOLEAN DEFAULT (0), is_upload_topping_csv BOOLEAN DEFAULT (0))");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS login_history (id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER,device_id TEXT,actions INTEGER DEFAULT 0,server_check INTEGER DEFAULT 0, created_at TEXT)");
 
@@ -85,7 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS printer_copy (id INTEGER PRIMARY KEY AUTOINCREMENT,p_name TEXT,copy INTEGER,server_check INTEGER DEFAULT 0, updated_at TEXT)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS customers (id INTEGER PRIMARY KEY AUTOINCREMENT,phone INTEGER,name TEXT,email TEXT,loyalty_num TEXT,suburb TEXT,addr1 TEXT,addr2 TEXT,state TEXT,pin_code TEXT,notes TEXT,order_type VARCHAR (20),order_status VARCHAR (20), server_check INTEGER DEFAULT 0, created_at TEXT, web_id INTEGER DEFAULT (0), edate DATE, taken_time TIME, due_time TIME)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS customers (id INTEGER PRIMARY KEY AUTOINCREMENT, phone INTEGER, name TEXT, email TEXT, loyalty_num TEXT, suburb TEXT, addr1 TEXT, addr2 TEXT, state TEXT, pin_code TEXT, notes TEXT, order_type VARCHAR (20), order_status VARCHAR (20), server_check INTEGER DEFAULT 0, created_at TEXT, web_id INTEGER DEFAULT (0), edate DATE, taken_time TIME, due_time TIME, order_completed BOOLEAN DEFAULT (0), order_cancelled BOOLEAN DEFAULT (0), send_to_kitchen BOOLEAN DEFAULT (0), driver_staff_id INTEGER DEFAULT (0), zone_name VARCHAR (50), delcost DOUBLE (10, 2), order_cancelled_status VARCHAR (20), order_cancelled_reason VARCHAR (150))");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS rooms (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,status INTEGER DEFAULT 1, server_check INTEGER DEFAULT 0,created_at TEXT, updated_at TEXT)");
 
@@ -99,19 +113,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS setting_default (id INTEGER PRIMARY KEY AUTOINCREMENT, printer TEXT, copy INTEGER DEFAULT 1, printer_font INTEGER (3) DEFAULT (0), reciept_print_settings TEXT, surcharge_per DECIMAL (3,2), surcharge_days VARCHAR (15), surcharge_dtype VARCHAR (10))");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS combo_item_data (combo_item_id INTEGER PRIMARY KEY AUTOINCREMENT,combo_id INT (4),catid INT (4),item_base_price DOUBLE (10, 2),order_no INT (4),szid  INT (4),items TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS combo_item_data (combo_item_id INTEGER PRIMARY KEY AUTOINCREMENT,combo_id INT (4),catid INT (4),item_base_price DOUBLE (10, 2),order_no INT (4),szid INT (4),items TEXT)");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS combo_mast (combo_id INTEGER PRIMARY KEY AUTOINCREMENT,catid INT (4),combo_name VARCHAR (100),totcost DOUBLE (10, 2),discount_type CHAR (1),discount_amt DOUBLE (10, 2),combocost DOUBLE (10, 2),is_active BOOLEAN DEFAULT (0),uent_dt DATETIME)");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS company_mast (compid INTEGER PRIMARY KEY AUTOINCREMENT,company_name VARCHAR (120),address VARCHAR (250),contact_no VARCHAR (15),abn_no VARCHAR (30))");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS order_data (order_id INTEGER PRIMARY KEY AUTOINCREMENT,odate DATE,custid BIGINT,ordertype VARCHAR (20),ordercost DOUBLE (12, 2),order_status VARCHAR (10),webfree DOUBLE (12, 2),gst DOUBLE (12, 2),delcost DOUBLE (12, 2),discount DOUBLE (12, 2),cnote TEXT,suburb VARCHAR (30),paymode VARCHAR (10),txn_id VARCHAR (120),payment_status VARCHAR (120),payment_type VARCHAR (120),payer_status VARCHAR (120),payer_email VARCHAR (120),redeem_amt DOUBLE (12, 2),coupon_code VARCHAR (15),dvdate DATE,uent_dt DATETIME,cashamt DOUBLE (12, 2),eftpos DOUBLE (12, 2),server_type VARCHAR (10),refund_amt DOUBLE (12, 2),refund_type VARCHAR (10),refund_note VARCHAR (200),refund_date DATE,edate DATE,onaccount BOOLEAN DEFAULT (0),surcharge_cost DOUBLE (10, 2) DEFAULT (0))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS order_data (order_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "odate DATE," +
+                "custid BIGINT," +
+                "ordertype VARCHAR (20)," +
+                "ordercost DOUBLE (12, 2)," +
+                "order_status VARCHAR (10)," +
+                "webfree DOUBLE (12, 2)," +
+                "gst DOUBLE (12, 2)," +
+                "delcost DOUBLE (12, 2)," +
+                "discount DOUBLE (12, 2)," +
+                "cnote TEXT," +
+                "suburb VARCHAR (30)," +
+                "paymode VARCHAR (10)," +
+                "txn_id VARCHAR (120)," +
+                "payment_status VARCHAR (120)," +
+                "payment_type VARCHAR (120)," +
+                "payer_status VARCHAR (120)," +
+                "payer_email VARCHAR (120)," +
+                "redeem_amt DOUBLE (12, 2)," +
+                "coupon_code VARCHAR (15)," +
+                "dvdate DATE," +
+                "uent_dt DATETIME," +
+                "cashamt DOUBLE (12, 2)," +
+                "eftpos DOUBLE (12, 2)," +
+                "server_type VARCHAR (10)," +
+                "refund_amt DOUBLE (12, 2)," +
+                "refund_type VARCHAR (10)," +
+                "refund_note VARCHAR (200)," +
+                "refund_date DATE," +
+                "edate DATE," +
+                "onaccount BOOLEAN DEFAULT (0)," +
+                "surcharge_cost DOUBLE (10, 2) DEFAULT (0), paycost DOUBLE (10, 2) DEFAULT (0))");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS order_product_data (pro_id INTEGER PRIMARY KEY AUTOINCREMENT,order_id INTEGER,custid INTEGER,catid INTEGER,catname VARCHAR (100),itemid VARCHAR (30),itemname VARCHAR (150),sitemid VARCHAR (30),sitemname VARCHAR (150),qty DOUBLE (8, 2),size VARCHAR (20),base VARCHAR (20),price DOUBLE (10, 2),fhprice DOUBLE (10, 2),shprice DOUBLE (10, 2),price_with_topping DOUBLE (10, 2),totprice DOUBLE (10, 2),hnh BOOLEAN DEFAULT (0),is_own BOOLEAN DEFAULT (0),is_deal BOOLEAN DEFAULT (0),parent_pro_id INTEGER,contains TEXT,extras TEXT,fritems TEXT,sfritems TEXT,anyitems TEXT,remark TEXT,itemprice DOUBLE (10, 2),extraprice DOUBLE (10, 2),refund_amt DOUBLE (12, 2),refund_type VARCHAR (10),refund_note VARCHAR (200),refund_date DATE,uent_dt DATETIME)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS order_product_data (pro_id INTEGER PRIMARY KEY AUTOINCREMENT, order_id INTEGER, custid INTEGER, catid INTEGER, catname VARCHAR (100), itemid VARCHAR (30), itemname VARCHAR (150), sitemid VARCHAR (30), sitemname VARCHAR (150), qty DOUBLE (8, 2), size VARCHAR (20), base VARCHAR (20), price DOUBLE (10, 2), fhprice DOUBLE (10, 2), shprice DOUBLE (10, 2), price_with_topping DOUBLE (10, 2), totprice DOUBLE (10, 2), hnh BOOLEAN DEFAULT (0), is_own BOOLEAN DEFAULT (0), is_deal BOOLEAN DEFAULT (0), parent_pro_id INTEGER, contains TEXT, extras TEXT, fritems TEXT, sfritems TEXT, anyitems TEXT, remark TEXT, itemprice DOUBLE (10, 2), extraprice DOUBLE (10, 2), refund_amt DOUBLE (12, 2), refund_type VARCHAR (10), refund_note VARCHAR (200), refund_date DATE, uent_dt DATETIME, is_amt_paid BOOLEAN DEFAULT (0), is_item_print BOOLEAN DEFAULT (0))");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS state_mast (state_id INTEGER PRIMARY KEY AUTOINCREMENT,state_name VARCHAR (50))");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS tmp_order_product_data (tmpid INTEGER PRIMARY KEY AUTOINCREMENT,custid INTEGER,catid INTEGER,catname VARCHAR (100),itemid VARCHAR (30),itemname VARCHAR (150),sitemid VARCHAR (30),sitemname VARCHAR (150),qty DOUBLE (8, 2),size VARCHAR (20),base VARCHAR (20),price DOUBLE (10, 2),fhprice DOUBLE (10, 2),shprice DOUBLE (10, 2),price_with_topping DOUBLE (10, 2),totprice DOUBLE (10, 2),hnh BOOLEAN DEFAULT (0),is_own BOOLEAN DEFAULT (0),is_deal BOOLEAN DEFAULT (0),parent_pro_id INTEGER,contains TEXT,extras TEXT,fritems TEXT,sfritems TEXT,anyitems TEXT,remark TEXT,itemprice DOUBLE (10, 2),extraprice DOUBLE (10, 2),uent_dt DATETIME)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS tmp_order_product_data (tmpid INTEGER PRIMARY KEY AUTOINCREMENT, custid INTEGER, catid INTEGER, catname VARCHAR (100), itemid VARCHAR (30), itemname VARCHAR (150), sitemid VARCHAR (30), sitemname VARCHAR (150), qty DOUBLE (8, 2), size VARCHAR (20), base VARCHAR (20), price DOUBLE (10, 2), fhprice DOUBLE (10, 2), shprice DOUBLE (10, 2), price_with_topping DOUBLE (10, 2), totprice DOUBLE (10, 2), hnh BOOLEAN DEFAULT (0), is_own BOOLEAN DEFAULT (0), is_deal BOOLEAN DEFAULT (0), parent_pro_id INTEGER, contains TEXT, extras TEXT, fritems TEXT, sfritems TEXT, anyitems TEXT, remark TEXT, itemprice DOUBLE (10, 2), extraprice DOUBLE (10, 2), uent_dt DATETIME, is_item_print BOOLEAN DEFAULT (0))");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS print_group_mast (pgid INTEGER PRIMARY KEY AUTOINCREMENT,group_name VARCHAR (50))");
 
@@ -123,7 +168,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS user_security_data (usid INTEGER PRIMARY KEY AUTOINCREMENT, sid INTEGER, ssid INTEGER)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS user_security_mast (sid INTEGER PRIMARY KEY AUTOINCREMENT, profile_name VARCHAR (30), order_no INTEGER, is_delete BOOLEAN DEFAULT (0))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS user_security_mast (sid INTEGER PRIMARY KEY AUTOINCREMENT, profile_name VARCHAR (30), order_no INTEGER, is_delete BOOLEAN DEFAULT (0), system_defined BOOLEAN DEFAULT (0))");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS category_group_data (cgid INTEGER PRIMARY KEY AUTOINCREMENT, cgtxt TEXT)");
 

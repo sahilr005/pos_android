@@ -224,14 +224,14 @@ public class UploadItems extends AppCompatActivity {
 
             long result = db.insert("item_master", null, values);
             long result2 = db.insert("category_mast", null, valuesForCategory);
-
-            if (result == -1) {
-                // Failed to insert row, handle the error
-                Toast.makeText(this, "Failed to insert row", Toast.LENGTH_SHORT).show();
-            } if (result2 == -1) {
-                // Failed to insert row, handle the error
-                Toast.makeText(this, "Failed to insert row In Category", Toast.LENGTH_SHORT).show();
-            }
+//
+//            if (result == -1) {
+//                // Failed to insert row, handle the error
+//                Toast.makeText(this, "Failed to insert row", Toast.LENGTH_SHORT).show();
+//            } if (result2 == -1) {
+//                // Failed to insert row, handle the error
+//                Toast.makeText(this, "Failed to insert row In Category", Toast.LENGTH_SHORT).show();
+//            }
         }
 
         db.close();

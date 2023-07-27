@@ -9,7 +9,7 @@ import android.view.View;
 
 public class Manager extends AppCompatActivity {
 
-    AppCompatButton categoryMaster,toppingMaster,uploadItems,UploadToppings,ItemMaster,SizeBase,CategorySizeSettings,SizeBaseSettingBtn,CategoryToppingSettings,comboMasterBtn,happyHoursBtn,toppingTradePrice,staffScreenBtn;
+    AppCompatButton categoryMaster,toppingMaster,uploadItems,UploadToppings,ItemMaster,SizeBase,CategorySizeSettings,SizeBaseSettingBtn,CategoryToppingSettings,comboMasterBtn,happyHoursBtn,toppingTradePrice,staffScreenBtn,securitySettingsBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +27,7 @@ public class Manager extends AppCompatActivity {
         happyHoursBtn = findViewById(R.id.happyHoursBtn);
         toppingTradePrice = findViewById(R.id.ToppingTradePriceBtn);
         staffScreenBtn = findViewById(R.id.staffScreenBtn);
+        securitySettingsBtn = findViewById(R.id.securitySettingsBtn);
 
         categoryMaster.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +119,13 @@ public class Manager extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Manager.this,StaffScreen.class);
+                startActivity(intent);
+            }
+        });
+        securitySettingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Manager.this,SecuritySettings.class);
                 startActivity(intent);
             }
         });

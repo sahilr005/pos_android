@@ -6,4 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".CategoryToppingSettings">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Part 1: Display all catname values -->
+        <ScrollView
+            android:id="@+id/scrollViewCategories"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TableLayout
+                android:id="@+id/tableLayoutCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*" />
+
+        </ScrollView>
+
+        <!-- Part 2: Display all tname values for a selected catname -->
+        <ScrollView
+            android:id="@+id/scrollViewToppings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TableLayout
+                android:id="@+id/tableLayoutToppings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*" />
+
+        </ScrollView>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

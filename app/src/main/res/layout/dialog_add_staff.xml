@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Username"
+        android:minHeight="48dp"
         android:inputType="text" />
 
     <EditText
@@ -17,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
+        android:minHeight="48dp"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -24,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Phone Number"
+        android:minHeight="48dp"
         android:inputType="phone" />
 
     <EditText
@@ -31,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Delivery Rate"
+        android:minHeight="48dp"
         android:inputType="numberDecimal" />
 
     <EditText
@@ -38,27 +42,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Hourly Rate"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:minHeight="48dp" />
 
-    <EditText
-        android:id="@+id/editTextSid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="SID"
-        android:inputType="number" />
+    <!--    <EditText-->
+<!--        android:id="@+id/editTextStdt"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Start Date"-->
+<!--        android:inputType="date" />-->
 
-    <EditText
-        android:id="@+id/editTextStdt"
+    <Spinner
+        android:id="@+id/spinnerSecurityProfile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Start Date"
-        android:inputType="date" />
+        android:minHeight="48dp"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/editTextPwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
+        android:minHeight="48dp"
         android:inputType="textPassword" />
 
 </LinearLayout>

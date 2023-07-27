@@ -6,24 +6,21 @@
     tools:context=".StaffScreen"
     >
 
-    <TableLayout
-        android:id="@+id/tableLayoutStaffData"
-        android:layout_width="match_parent"
-        android:layout_height="674dp"
-        android:layout_above="@+id/buttonAdd"
-        android:layout_marginBottom="-7dp"
-        android:padding="16dp" />
-
     <Button
         android:id="@+id/buttonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Add" />
+        android:layout_alignParentEnd="true"
+        android:text="Add New" />
+
+    <TableLayout
+        android:id="@+id/tableLayoutStaffData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonAdd"
+        android:layout_marginTop="50dp"
+        android:padding="16dp" />
 
 </RelativeLayout>
