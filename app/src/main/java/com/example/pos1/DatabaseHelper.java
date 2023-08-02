@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return dateFormat.format(calendar.getTime());
     }
     private static final String DATABASE_NAME = "mydatabase.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_CATEGORY_MAST = "category_mast";
 
@@ -32,11 +31,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create the users table
-        String createUserTableQuery = "CREATE TABLE users (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "name TEXT," +
-                "email TEXT)";
-        db.execSQL(createUserTableQuery);
+//        String createUserTableQuery = "CREATE TABLE users (" +
+//                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+//                "name TEXT," +
+//                "email TEXT)";
+//        db.execSQL(createUserTableQuery);
 
         db.execSQL("CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, phone TEXT, password TEXT, logo TEXT, is_login INTEGER, is_manager INTEGER, last_login TEXT, device_id TEXT, server_check INTEGER DEFAULT 0, created_at TEXT, updated_at TEXT)");
 
@@ -215,7 +214,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO otype_mast (otid, otname, is_active, server_check) VALUES (1, 'Del', 1, 0), (2, 'Pickup', 1, 0), (3, 'Eatin', 1, 0)");
 
         db.execSQL("INSERT INTO del_pick_time (deltm, picktm) VALUES (0, 0)");
-
+        Log.d("add,,,,,,,", "onCreate: ");
+//        addOdersSampleData();
 
         // Add 10 sample data entries
 //        for (int i = 1; i <= 10; i++) {
@@ -231,6 +231,82 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Handle database upgrades if needed
     }
 
+    void addOdersSampleData(){
+        String[] orderDates = {"2023-07-18"};
+        long[] customerIds = {1};
+        String[] orderTypes = {"EatIn"};
+        double[] orderCosts = {50.00};
+        String[] orderStatuses = {"Pay Later"};
+        double[] webFrees = {5.00};
+        double[] gsts = {7.50};
+        double[] delCosts = {3.00};
+        double[] discounts = {0.00};
+        String[] cNotes = {"" };
+        String[] suburbs = {"New York"};
+        String[] payModes = { "Cash"};
+        String[] txnIds = { "987654321"};
+        String[] paymentStatuses = {"Completed"};
+        String[] paymentTypes = { "Cash"};
+        String[] payerStatuses = {"Verified"};
+        String[] payerEmails = {"john@example.com"};
+        double[] redeemAmts = {0.00};
+        String[] couponCodes = {""};
+        String[] dvDates = {"2023-07-19"};
+        String[] uentDts = {"2023-07-18 12:00:00"};
+        double[] cashAmts = {30.00};
+        double[] eftposAmts = {20.00};
+        String[] serverTypes = {"Regular"};
+        double[] refundAmts = {0.00};
+        String[] refundTypes = {""};
+        String[] refundNotes = {""};
+        String[] refundDates = {""};
+        String[] eDates = {"2023-07-19"};
+        boolean[] onAccounts = {true};
+        double[] surchargeCosts = {0.00};
+        double[] payCosts = {0.00};
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Loop through the sample data arrays and insert the data into the order_data table
+        for (int i = 0; i < orderDates.length; i++) {
+            ContentValues values = new ContentValues();
+            values.put("odate", orderDates[i]);
+            values.put("custid", customerIds[i]);
+            values.put("ordertype", orderTypes[i]);
+            values.put("ordercost", orderCosts[i]);
+            values.put("order_status", orderStatuses[i]);
+            values.put("webfree", webFrees[i]);
+            values.put("gst", gsts[i]);
+            values.put("delcost", delCosts[i]);
+            values.put("discount", discounts[i]);
+            values.put("cnote", cNotes[i]);
+            values.put("suburb", suburbs[i]);
+            values.put("paymode", payModes[i]);
+            values.put("txn_id", txnIds[i]);
+            values.put("payment_status", paymentStatuses[i]);
+            values.put("payment_type", paymentTypes[i]);
+            values.put("payer_status", payerStatuses[i]);
+            values.put("payer_email", payerEmails[i]);
+            values.put("redeem_amt", redeemAmts[i]);
+            values.put("coupon_code", couponCodes[i]);
+            values.put("dvdate", dvDates[i]);
+            values.put("uent_dt", uentDts[i]);
+            values.put("cashamt", cashAmts[i]);
+            values.put("eftpos", eftposAmts[i]);
+            values.put("server_type", serverTypes[i]);
+            values.put("refund_amt", refundAmts[i]);
+            values.put("refund_type", refundTypes[i]);
+            values.put("refund_note", refundNotes[i]);
+            values.put("refund_date", refundDates[i]);
+            values.put("edate", eDates[i]);
+            values.put("onaccount", onAccounts[i]);
+            values.put("surcharge_cost", surchargeCosts[i]);
+            values.put("paycost", payCosts[i]);
+
+            db.insert("order_data", null, values);
+        }
+        db.close();
+    }
     public List<String> getData() {
         List<String> dataList = new ArrayList<>();
 

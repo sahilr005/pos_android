@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Pos1"
-        tools:targetApi="31">
+        tools:targetApi="33">
         <activity
             android:name=".AddSecurityProfile"
             android:exported="false">

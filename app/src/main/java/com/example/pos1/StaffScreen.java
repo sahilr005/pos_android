@@ -31,11 +31,13 @@ public class StaffScreen extends AppCompatActivity {
 
     private TableLayout tableLayoutStaffData;
     private Button buttonAdd;
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_staff_screen);
+        dbHelper = new DatabaseHelper(this);
 
         tableLayoutStaffData = findViewById(R.id.tableLayoutStaffData);
         buttonAdd = findViewById(R.id.buttonAdd);
@@ -57,7 +59,8 @@ public class StaffScreen extends AppCompatActivity {
                 TableRow.LayoutParams.WRAP_CONTENT
         ));
         headingRow.setBackgroundResource(R.drawable.table_header_border);
-        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+//        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM staff_mast", null);
 
         addHeadingTextView(headingRow, "Id");
@@ -118,7 +121,8 @@ public class StaffScreen extends AppCompatActivity {
     }
 
     private void editStaffData(int staffId) {
-        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+//        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
         Cursor cursor = db.rawQuery("SELECT * FROM staff_mast WHERE stid = ?", new String[]{String.valueOf(staffId)});
 
         if (cursor.moveToFirst()) {
@@ -191,7 +195,8 @@ public class StaffScreen extends AppCompatActivity {
     }
 
     private int getProfileNameIndex(int sid) {
-        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+//        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
 
         // Query to fetch profile_name and sid from user_security_mast table
         Cursor cursor = db.rawQuery("SELECT sid, profile_name FROM user_security_mast", null);
@@ -217,7 +222,8 @@ public class StaffScreen extends AppCompatActivity {
 
     private void updateStaffData(int staffId, String updatedUname, String updatedUemail, String updatedUphno,
                                  double updatedDelrate, double updatedHrrate, int updatedSid, String updatedPwd) {
-        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+      SQLiteDatabase db = dbHelper.getReadableDatabase();
+//        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
         ContentValues values = new ContentValues();
         values.put("uname", updatedUname);
         values.put("uemail", updatedUemail);

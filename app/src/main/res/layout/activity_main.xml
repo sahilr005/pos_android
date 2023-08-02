@@ -9,6 +9,9 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,6 +36,7 @@
             android:textColor="#FFFFFF" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/deliveryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -41,6 +45,7 @@
             android:textColor="#FFFFFF" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/counterButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -58,7 +63,7 @@
             android:textColor="#FFFFFF" />
 
     </LinearLayout>
-
+    </HorizontalScrollView>
     <LinearLayout
         android:id="@+id/statusButtonsContainer"
         android:layout_width="match_parent"
@@ -79,12 +84,15 @@
         android:visibility="gone"
         />
 
+
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/app_name">
-
+<HorizontalScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
         <TableLayout
             android:id="@+id/DashBoardOrdersTableLayout"
             android:layout_width="match_parent"
@@ -95,5 +103,6 @@
 
 
         </TableLayout>
+</HorizontalScrollView>
     </ScrollView>
 </LinearLayout>

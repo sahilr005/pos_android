@@ -1,44 +1,42 @@
 package com.example.pos1;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private DatabaseHelper dbHelper;
 
-    AppCompatButton mangerButton, eatInButton,pickupButton;
+    AppCompatButton mangerButton, eatInButton,pickupButton,deliveryButton,counterButton;
     Button changeStatusButton;
     private TableRow selectedRow;
     private List<String> selectedFilters = new ArrayList<>();
@@ -48,13 +46,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbHelper = new DatabaseHelper(this);
         mangerButton = findViewById(R.id.mangerButton);
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
         eatInButton = findViewById(R.id.eatInButton);
         changeStatusButton = findViewById(R.id.changeStatusButton);
         tableLayout = findViewById(R.id.DashBoardOrdersTableLayout);
         pickupButton = findViewById(R.id.pickupButton);
-
+        deliveryButton = findViewById(R.id.deliveryButton);
+        counterButton = findViewById(R.id.counterButton);
+//        databaseHelper.addOdersSampleData();
         mangerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,10 +65,22 @@ public class MainActivity extends AppCompatActivity {
         pickupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showPickupDialog("Pickup");
             }
         });
-        // --- sample data add
+        deliveryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPickupDialog("Delivery");
+            }
+        });
+        counterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPickupDialog("Counter");
+            }
+        });
+////         --- sample data add
 //        eatInButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -152,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //                // Close the database after inserting data
 //                db.close();
-//                displayTableData("All Orders");
+//                displayTableData();
 //            }
 //        });
 
@@ -186,9 +198,118 @@ public class MainActivity extends AppCompatActivity {
                 onChangeStatusClicked(v);
             }
         });
-        // Show all orders by default
         toggleFilter("All Orders");
 
+    }
+
+    private void showPickupDialog(String orderType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View dialogView = layoutInflater.inflate(R.layout.dasboard_dialog_pickup, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(dialogView);
+        alertDialogBuilder.setTitle(orderType+" Customer Order");
+
+        // Find the EditText fields in the dialog layout
+        EditText phoneNumberEditText = dialogView.findViewById(R.id.phoneNumberEditText);
+        EditText nameEditText = dialogView.findViewById(R.id.nameEditText);
+        EditText addressLine1EditText = dialogView.findViewById(R.id.addressLine1EditText);
+        EditText addressLine2EditText = dialogView.findViewById(R.id.addressLine2EditText);
+        EditText emailEditText = dialogView.findViewById(R.id.emailEditText);
+        EditText loyaltyCardNoEditText = dialogView.findViewById(R.id.loyaltyCardNoEditText);
+        EditText suburbEditText = dialogView.findViewById(R.id.suburbEditText);
+        EditText stateEditText = dialogView.findViewById(R.id.stateEditText);
+        EditText postcodeEditText = dialogView.findViewById(R.id.postcodeEditText);
+        EditText notesEditText = dialogView.findViewById(R.id.notesEditText);
+
+        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Retrieve data from the EditText fields
+                String phoneNumber = phoneNumberEditText.getText().toString().trim();
+                String name = nameEditText.getText().toString().trim();
+                String addressLine1 = addressLine1EditText.getText().toString().trim();
+                String addressLine2 = addressLine2EditText.getText().toString().trim();
+                String email = emailEditText.getText().toString().trim();
+                String loyaltyCardNo = loyaltyCardNoEditText.getText().toString().trim();
+                String suburb = suburbEditText.getText().toString().trim();
+                String state = stateEditText.getText().toString().trim();
+                String postcode = postcodeEditText.getText().toString().trim();
+                String notes = notesEditText.getText().toString().trim();
+
+                // Check if any of the required fields are empty
+                if (TextUtils.isEmpty(phoneNumber) || TextUtils.isEmpty(name) ) {
+                    // Display an error message if any of the required fields are empty
+                    // You can customize this as per your requirement
+                     Toast.makeText(MainActivity.this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
+                    return ;
+                }else {
+
+                    // Save data to the users table
+                   long userId= saveUserDetails(name, phoneNumber, email, addressLine1, addressLine2, suburb, state, postcode, loyaltyCardNo,notes,orderType);
+
+                    // Save data to the order_data table
+                    savePickupOrderData(userId,orderType);
+                    // Refresh the table data after adding the new order
+                    displayTableData();
+                }
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("Cancel", null);
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+    private void savePickupOrderData(long userId, String orderType) {
+        // Open the database for writing
+        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+
+        // Get the current date in the required format
+        String orderDate =  LocalDate.now().toString(); // You can customize this as needed
+        double orderCost = 0.00; // You can set the actual order cost if required
+
+        // Create a ContentValues object to hold the data to be inserted
+        ContentValues orderValues = new ContentValues();
+        orderValues.put("odate", orderDate);
+        orderValues.put("custid", userId);
+        orderValues.put("ordertype", orderType);
+        orderValues.put("ordercost", orderCost);
+        orderValues.put("order_status", "Pay Later"); // You can set the actual status as required
+
+        // Insert the data into the order_data table
+        long orderId = db.insert("order_data", null, orderValues);
+
+        // Close the database after inserting data
+        db.close();
+    }
+    private long saveUserDetails(String name, String phone, String email, String addressLine1,
+                                 String addressLine2, String suburb, String state, String postcode,
+                                 String loyaltyCardNo,String notes,String orderType) {
+        // Open the database for writing
+        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+
+        // Create a ContentValues object to hold the data to be inserted
+        ContentValues userValues = new ContentValues();
+
+        userValues.put("name", name);
+        userValues.put("phone", phone);
+        userValues.put("email", email);
+        userValues.put("addr1", addressLine1);
+        userValues.put("addr2", addressLine2);
+        userValues.put("suburb", suburb);
+        userValues.put("state", state);
+        userValues.put("pin_code", postcode);
+        userValues.put("loyalty_num", loyaltyCardNo);
+        userValues.put("notes", notes);
+        userValues.put("order_type", orderType);
+
+        // Insert the data into the users table
+        long userId = db.insert("customers", null, userValues);
+
+        // Close the database after inserting data
+        db.close();
+        return userId;
     }
 
     private void toggleFilter(String filterType) {
@@ -258,10 +379,11 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("Range")
     private void displayTableData() {
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
         SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
-
+        Log.d("kkkn", "displayTableData0000: ");
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM order_data");
-        if (!selectedFilters.isEmpty()&&!selectedFilters.contains("All Orders")) {
+        if (!selectedFilters.isEmpty() && !selectedFilters.contains("All Orders")) {
             queryBuilder.append(" WHERE");
             for (int i = 0; i < selectedFilters.size(); i++) {
                 if (i > 0) {
@@ -281,10 +403,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        if(selectedFilters.contains("All Orders")) {
+        if (selectedFilters.contains("All Orders")) {
             queryBuilder = new StringBuilder("SELECT * FROM order_data");
         }
-        Cursor cursor = db.rawQuery(queryBuilder.toString(), null);
+        Log.d("DB QUERY", "displayTableData: "+queryBuilder.toString());
+        Log.d("DB QUERY", "displayTableData: -----");
+//        addOdersSampleData();
+         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM order_data", null);
         tableLayout.removeAllViews();
         createTableHeading();
         // Add data to the table rows
@@ -307,12 +432,14 @@ public class MainActivity extends AppCompatActivity {
                 String customerName = "";
                 String customerPhone = "";
 
-                if (customerCursor.moveToFirst()) {
+                // Check if customerCursor has data
+                if (customerCursor.getCount() > 0 && customerCursor.moveToFirst()) {
                     customerName = customerCursor.getString(customerCursor.getColumnIndex("name"));
                     customerPhone = String.valueOf(customerCursor.getLong(customerCursor.getColumnIndex("phone")));
                 }
 
                 customerCursor.close();
+
 
                 // Check if the order meets all selected filter conditions
                 boolean meetsAllFilters = true;
@@ -484,4 +611,5 @@ public class MainActivity extends AppCompatActivity {
         editButton.setText(text);
         row.addView(editButton);
     }
+
 }
