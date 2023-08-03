@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="  Upload Items"
                 android:textColor="@color/white"
+                android:textStyle="bold"
                 android:textSize="25dp"
                 />
         <LinearLayout
@@ -48,21 +49,26 @@
                 android:id="@+id/uploadItems"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:background="@drawable/buttonshap"
                 android:text="Upload Items"
-                android:textColor="@color/black" />
+                android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+                android:textSize="18sp"
+                android:textColor="@color/black" >
+
+            </androidx.appcompat.widget.AppCompatButton>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/UploadToppingsBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_margin="15dp"
                 android:layout_weight="1"
+                android:textSize="18sp"
                 android:background="@drawable/buttonshap"
+                android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                 android:text="Upload Toppings"
                 android:textColor="@color/black" />
 
@@ -73,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:text="  Menu Settings"
                 android:paddingTop="10dp"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 />
@@ -93,10 +100,11 @@
                     android:id="@+id/categoryMasterBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
                     android:layout_weight="1"
+                    android:textSize="18sp"
                     android:background="@drawable/buttonshap"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
                     android:text="Category Master"
                     android:textColor="@color/black" />
 
@@ -104,9 +112,11 @@
                     android:id="@+id/ItemMasterBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
                     android:background="@drawable/buttonshap"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
                     android:text="Item Master"
                     android:textColor="@color/black" />
 
@@ -114,9 +124,11 @@
                     android:id="@+id/categorySizeSettingBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
                     android:layout_weight="1"
+                    android:textSize="18sp"
                     android:background="@drawable/buttonshap"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
                     android:text="Category Size Settings"
                     android:textColor="@color/black" />
 
@@ -126,7 +138,6 @@
                 android:id="@+id/layout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"
@@ -139,9 +150,10 @@
                     android:id="@+id/SizeBaseBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
                     android:background="@drawable/buttonshap"
                     android:text="Size/Base"
                     android:textColor="@color/black" />
@@ -150,8 +162,11 @@
                     android:id="@+id/SizeBaseSettingBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Size Base Settings"
                     android:textColor="@color/black" />
@@ -160,7 +175,10 @@
                     android:id="@+id/CategoryToppingSettings"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:layout_weight="1"
                     android:background="@drawable/buttonshap"
                     android:text="Category Topping Settings"
@@ -172,7 +190,6 @@
                 android:id="@+id/layout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"
@@ -185,9 +202,11 @@
                     android:id="@+id/toppingMasterBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Topping Master"
                     android:textColor="@color/black" />
@@ -196,7 +215,10 @@
                     android:id="@+id/button31"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:layout_weight="1"
                     android:background="@drawable/buttonshap"
                     android:text="Deal Master"
@@ -206,8 +228,11 @@
                     android:id="@+id/comboMasterBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Combo Master"
                     android:textColor="@color/black" />
@@ -216,8 +241,11 @@
                     android:id="@+id/happyHoursBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Happy Hours"
                     android:textColor="@color/black" />
@@ -228,6 +256,7 @@
                 android:layout_height="wrap_content"
                 android:text="  Price Settings"
                 android:paddingTop="10dp"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 />
@@ -235,7 +264,6 @@
                 android:id="@+id/layout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"
@@ -244,15 +272,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout4">
 
-
-
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Item Trade Price"
                     android:textColor="@color/black" />
@@ -261,8 +289,11 @@
                     android:id="@+id/ToppingTradePriceBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Topping Trade Price"
                     android:textColor="@color/black" />
@@ -275,6 +306,7 @@
                 android:layout_height="wrap_content"
                 android:text="  Printer Settings"
                 android:paddingTop="10dp"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 />
@@ -282,7 +314,6 @@
                 android:id="@id/layout6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"
@@ -294,8 +325,11 @@
                     android:id="@+id/button12"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Printer Settings"
                     android:textColor="@color/black" />
@@ -303,9 +337,11 @@
                     android:id="@+id/button13"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Printer Recipet Settings"
                     android:textColor="@color/black" />
@@ -314,8 +350,11 @@
                     android:id="@+id/button14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Group Print Settings"
                     android:textColor="@color/black" />
@@ -328,6 +367,7 @@
                 android:layout_height="wrap_content"
                 android:text="  Staff and Security"
                 android:paddingTop="10dp"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 />
@@ -335,7 +375,6 @@
                 android:id="@+id/layout7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"
@@ -348,8 +387,11 @@
                     android:id="@+id/staffScreenBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Staff"
                     android:textColor="@color/black" />
@@ -358,9 +400,11 @@
                     android:id="@+id/securitySettingsBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Security Settings"
                     android:textColor="@color/black" />
@@ -370,6 +414,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="  Display Settings"
+                android:textStyle="bold"
                 android:paddingTop="10dp"
                 android:textColor="@color/white"
                 android:textSize="25dp"
@@ -378,7 +423,6 @@
                 android:id="@+id/layout8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"
@@ -390,8 +434,11 @@
                     android:id="@+id/button17"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Button Settings"
                     android:textColor="@color/black" />
@@ -399,20 +446,21 @@
                     android:id="@+id/button18"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Table Settings"
                     android:textColor="@color/black" />
-
-
-
 
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="  Cash Drawer and Reports"
+                android:textStyle="bold"
                 android:paddingTop="10dp"
                 android:textColor="@color/white"
                 android:textSize="25dp"
@@ -421,7 +469,6 @@
                 android:id="@+id/layout09"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"
@@ -433,9 +480,11 @@
                     android:id="@+id/button19"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Cash Drawer"
                     android:textColor="@color/black" />
@@ -444,8 +493,11 @@
                     android:id="@+id/button20"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Expenses"
                     android:textColor="@color/black" />
@@ -453,8 +505,11 @@
                     android:id="@+id/button21"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Reports"
                     android:textColor="@color/black" />
@@ -466,6 +521,7 @@
                 android:layout_height="wrap_content"
                 android:text="  Transaction Authorisation"
                 android:paddingTop="10dp"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 />
@@ -473,7 +529,6 @@
                 android:id="@+id/layout9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"
@@ -485,9 +540,11 @@
                     android:id="@+id/button22"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Refund"
                     android:textColor="@color/black" />
@@ -496,8 +553,11 @@
                     android:id="@+id/button23"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Cancel"
                     android:textColor="@color/black" />
@@ -507,13 +567,13 @@
                 android:layout_height="wrap_content"
                 android:text="  Customers and Deliveries"
                 android:paddingTop="10dp"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:id="@id/layout10"
                 android:orientation="horizontal"
@@ -527,8 +587,11 @@
                     android:id="@+id/button24"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:background="@drawable/buttonshap"
                     android:text="Customers"
                     android:textColor="@color/black" />
@@ -537,14 +600,14 @@
                     android:id="@+id/button25"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
+                    android:textSize="18sp"
                     android:background="@drawable/buttonshap"
                     android:text="Suburbs"
                     android:textColor="@color/black" />
-
-
-
 
             </LinearLayout>
             <TextView
@@ -552,6 +615,7 @@
                 android:layout_height="wrap_content"
                 android:text="  Miscellaneous"
                 android:paddingTop="10dp"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 />
@@ -559,7 +623,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"
@@ -571,9 +634,11 @@
                     android:id="@+id/button26"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
+                    android:textSize="18sp"
                     android:background="@drawable/buttonshap"
                     android:text="Domain Settings"
                     android:textColor="@color/black" />
@@ -581,7 +646,10 @@
                     android:id="@+id/button27"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:layout_weight="1"
                     android:background="@drawable/buttonshap"
                     android:text="Database Settings"
@@ -591,7 +659,10 @@
                     android:id="@+id/button28"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:layout_weight="1"
                     android:background="@drawable/buttonshap"
                     android:text="Surcharge Settings"
@@ -601,7 +672,10 @@
                     android:id="@+id/button29"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18sp"
+                    android:drawableRight="@drawable/ic_action_upload_with_circle_background"
+
                     android:layout_weight="1"
                     android:background="@drawable/buttonshap"
                     android:text="Order Take Time Settings"

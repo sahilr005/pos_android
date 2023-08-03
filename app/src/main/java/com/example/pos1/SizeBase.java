@@ -61,6 +61,7 @@ public class SizeBase extends AppCompatActivity {
                 if (tableLayout.getChildCount() > 0) {
                     tableLayout.removeAllViews();
                 }
+                createTableHeading();
                 displayTableData();
             }
         });
@@ -114,6 +115,7 @@ public class SizeBase extends AppCompatActivity {
         row.addView(textView);
     }
 
+    @SuppressLint("Range")
     private void displayTableData() {
         SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
         Cursor cursor = db.rawQuery("SELECT size_mast.szid, size_mast.szname, category_mast.catname, size_mast.is_active, size_mast.uentdt " +

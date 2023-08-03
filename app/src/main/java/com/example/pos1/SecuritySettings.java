@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,7 +26,7 @@ public class SecuritySettings extends AppCompatActivity {
 
     Button addSecurityProfileBtn;
     Spinner securityProfileSpinner;
-    LinearLayout checkBoxContainer; // LinearLayout to hold CheckBoxes
+    GridLayout checkBoxContainer; // LinearLayout to hold CheckBoxes
     private int selectedProfileSid = -1;
 
     @Override

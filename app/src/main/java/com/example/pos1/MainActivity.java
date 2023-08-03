@@ -80,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
                 showPickupDialog("Counter");
             }
         });
+        eatInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPickupDialog("EatIn");
+            }
+        });
 ////         --- sample data add
 //        eatInButton.setOnClickListener(new View.OnClickListener() {
 //            @Override

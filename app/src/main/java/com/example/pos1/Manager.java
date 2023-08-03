@@ -2,8 +2,13 @@ package com.example.pos1;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -28,6 +33,20 @@ public class Manager extends AppCompatActivity {
         toppingTradePrice = findViewById(R.id.ToppingTradePriceBtn);
         staffScreenBtn = findViewById(R.id.staffScreenBtn);
         securitySettingsBtn = findViewById(R.id.securitySettingsBtn);
+
+        modifyButtonDrawable(categoryMaster, R.color.cold, R.drawable.ic_baseline_category_24);
+        modifyButtonDrawable(ItemMaster, R.color.deep_sky_blue, R.drawable.ic_baseline_notes_24);
+        modifyButtonDrawable(CategorySizeSettings, R.color.teal_200, R.drawable.ic_baseline_category_24);
+        modifyButtonDrawable(SizeBase, R.color.cold, R.drawable.ic_baseline_category_24);
+        modifyButtonDrawable(SizeBaseSettingBtn, R.color.deep_sky_blue, R.drawable.ic_baseline_category_24);
+        modifyButtonDrawable(CategoryToppingSettings, R.color.deep_pink, R.drawable.ic_baseline_category_24);
+
+        modifyButtonDrawable(toppingMaster, R.color.cold, R.drawable.ic_baseline_category_24);
+        modifyButtonDrawable(comboMasterBtn, R.color.deep_sky_blue, R.drawable.ic_baseline_category_24);
+        modifyButtonDrawable(happyHoursBtn, R.color.deep_pink, R.drawable.ic_baseline_category_24);
+        modifyButtonDrawable(staffScreenBtn, R.color.deep_sky_blue, R.drawable.ic_baseline_category_24);
+        modifyButtonDrawable(securitySettingsBtn, R.color.cold, R.drawable.ic_baseline_category_24);
+        modifyButtonDrawable(toppingTradePrice, R.color.cold, R.drawable.ic_baseline_category_24);
 
         categoryMaster.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,5 +148,25 @@ public class Manager extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void modifyButtonDrawable(AppCompatButton button, int newColor, int newIconResource) {
+        Drawable[] drawables = button.getCompoundDrawables();
+        Drawable rightDrawable = drawables[2]; // Assuming the drawableRight is at index 2
+        Drawable newIcon = getResources().getDrawable(newIconResource);
+
+        if (rightDrawable instanceof LayerDrawable) {
+            LayerDrawable layerDrawable = (LayerDrawable) rightDrawable;
+            GradientDrawable circleBackground = (GradientDrawable) layerDrawable.findDrawableByLayerId(R.id.background);
+
+            // Change color here
+            circleBackground.setColor(ContextCompat.getColor(this, newColor));
+
+            // Set the new icon with the modified LayerDrawable
+            layerDrawable.setDrawableByLayerId(R.id.icon, newIcon);
+
+            // Set the modified LayerDrawable back to the button
+            button.setCompoundDrawablesWithIntrinsicBounds(null, null, layerDrawable, null);
+        }
     }
 }

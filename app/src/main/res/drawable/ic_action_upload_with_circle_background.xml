@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Circular background -->
+    <item android:id="@+id/background"
+        android:drawable="@drawable/circle_background"
+        />
+
+    <!-- Icon -->
+    <item
+        android:id="@+id/icon"
+        android:drawable="@drawable/ic_action_upload"
+        android:gravity="center"
+        />
+</layer-list>

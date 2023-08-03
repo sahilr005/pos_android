@@ -57,7 +57,8 @@ public class CategoryMaster extends AppCompatActivity {
     private void addHeadingTextView(TableRow row, String text) {
         TextView textView = new TextView(this);
         textView.setText(text);
-        textView.setPadding(16, 16, 16, 16);
+        textView.setTextSize(18);
+        textView.setPadding(18, 18, 18, 18);
         textView.setTypeface(null, Typeface.BOLD);
         row.addView(textView);
     }
@@ -98,6 +99,7 @@ public class CategoryMaster extends AppCompatActivity {
     private void addDataTextView(TableRow row, String text) {
         TextView textView = new TextView(this);
         textView.setText(text);
+        textView.setTextSize(16);
         textView.setPadding(16, 16, 16, 16);
         row.addView(textView);
     }
