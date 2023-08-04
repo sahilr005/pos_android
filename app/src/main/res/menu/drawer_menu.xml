@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_baseline_home_24"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_book_table"
+            android:icon="@drawable/ic_baseline_library_books_24"
+            android:title="Book Table" />
+        <item
+        android:id="@+id/nav_assign_driver"
+        android:icon="@drawable/ic_baseline_drive_eta_24"
+        android:title="Assign Drivers" />
+        <item
+        android:id="@+id/nav_prepTime"
+        android:icon="@drawable/ic_baseline_access_time_24"
+        android:title="Prep Time" />
+        <item
+        android:id="@+id/nav_manger"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="Manger" />
+        <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_baseline_settings_suggest_24"
+        android:title="Settings" />
+        <item
+        android:id="@+id/nav_sync_server"
+        android:icon="@drawable/ic_baseline_sync_24"
+        android:title="Sync To Server" />
+        <item
+            android:id="@+id/nav_web_admin_login"
+            android:icon="@drawable/ic_baseline_settings_24"
+            android:title="Web Admin Login" />
+        <item
+            android:id="@+id/nav_Logout"
+            android:icon="@drawable/ic_baseline_logout_24"
+            android:title="Logout" />
+    </group>
+</menu>

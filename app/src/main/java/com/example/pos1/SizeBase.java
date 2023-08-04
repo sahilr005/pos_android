@@ -1,11 +1,9 @@
 package com.example.pos1;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.view.Gravity;
 import android.widget.TableRow.LayoutParams;
-
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.content.ContentValues;
@@ -20,9 +18,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.chip.Chip;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;

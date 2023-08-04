@@ -2,6 +2,7 @@ package com.example.pos1;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,14 +30,70 @@ import java.util.List;
 
 public class CategoryMaster extends AppCompatActivity {
     private TableLayout tableLayout;
+    private AppCompatButton addCategoryBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_master);
 
         tableLayout = findViewById(R.id.categoryMasterTable);
+        addCategoryBtn = findViewById(R.id.addCategoryBtn);
+        addCategoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddCategoryDialog();
+            }
+        });
         displayTableData();
     }
+
+    private void showAddCategoryDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_add_category, null);
+        dialogBuilder.setView(dialogView);
+
+        EditText categoryNameEditText = dialogView.findViewById(R.id.categoryNameEditText);
+
+        dialogBuilder.setPositiveButton("Add Category", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String categoryName = categoryNameEditText.getText().toString();
+
+                if (!categoryName.isEmpty()) {
+                    insertCategoryIntoDatabase(categoryName);
+                    displayTableData(); // Refresh the table data after insertion
+                } else {
+                    Toast.makeText(CategoryMaster.this, "Category name cannot be empty", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        dialogBuilder.setNegativeButton("Cancel", null);
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void insertCategoryIntoDatabase(String categoryName) {
+        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+
+        ContentValues values = new ContentValues();
+        values.put("catname", categoryName);
+        values.put("is_active", 1); // Set default values as needed
+        values.put("is_combo", 0);
+
+        long newRowId = db.insert("category_mast", null, values);
+
+        if (newRowId != -1) {
+            Toast.makeText(CategoryMaster.this, "Category added successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(CategoryMaster.this, "Failed to add category", Toast.LENGTH_SHORT).show();
+        }
+
+        db.close();
+    }
+
 
     private void createTableHeading() {
         TableRow headingRow = new TableRow(this);
@@ -227,6 +284,4 @@ public class CategoryMaster extends AppCompatActivity {
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
     }
-
-
 }

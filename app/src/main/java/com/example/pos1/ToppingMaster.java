@@ -28,16 +28,71 @@ import java.util.List;
 
 public class ToppingMaster extends AppCompatActivity {
     private TableLayout tableLayout;
+    private Button addToppingBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topping_master);
         tableLayout = findViewById(R.id.toppingMasterTable);
+        addToppingBtn = findViewById(R.id.addToppingBtn);
+        addToppingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddToppingDialog();
+            }
+        });
         createTableHeading();
 
         displayTableData();
     }
+    private void showAddToppingDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_add_topping, null);
+        dialogBuilder.setView(dialogView);
+
+        EditText toppingNameEditText = dialogView.findViewById(R.id.toppingNameEditText);
+
+        dialogBuilder.setPositiveButton("Add Topping", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String toppingName = toppingNameEditText.getText().toString();
+
+                if (!toppingName.isEmpty()) {
+                    insertToppingIntoDatabase(toppingName);
+                    tableLayout.removeAllViews();
+                    createTableHeading();
+                    displayTableData(); // Refresh the table data after insertion
+                } else {
+                    Toast.makeText(ToppingMaster.this, "Topping name cannot be empty", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        dialogBuilder.setNegativeButton("Cancel", null);
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+    private void insertToppingIntoDatabase(String toppingName) {
+        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+
+        ContentValues values = new ContentValues();
+        values.put("tname", toppingName);
+        values.put("is_active", 1); // Set default values as needed
+
+        long newRowId = db.insert("topping_mast", null, values);
+
+        if (newRowId != -1) {
+            Toast.makeText(ToppingMaster.this, "Topping added successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(ToppingMaster.this, "Failed to add topping", Toast.LENGTH_SHORT).show();
+        }
+
+        db.close();
+    }
+
 
     private void createTableHeading() {
         TableRow headingRow = new TableRow(this);

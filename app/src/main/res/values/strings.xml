@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">pos1</string>
     <string name="dropdownvalue">Selecte Value</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
     <string-array name="discount_types">
         <item>Percentage</item>
         <item>Amount</item>

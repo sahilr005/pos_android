@@ -7,26 +7,60 @@
     android:padding="20dp"
     tools:context=".ToppingMaster">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:elevation="4dp"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/toppingMasterText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Topping Master"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/addToppingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Topping"
+            android:layout_gravity="end"
+            android:layout_marginEnd="15dp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
     <ScrollView
+        android:id="@+id/scrollView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="20dp">
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp">
 
-        <TableLayout
-            android:id="@+id/toppingMasterTable"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:stretchColumns="*" />
-    </HorizontalScrollView>
+            <TableLayout
+                android:id="@+id/toppingMasterTable"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:stretchColumns="*" />
+        </HorizontalScrollView>
     </ScrollView>
 
 

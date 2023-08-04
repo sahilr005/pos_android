@@ -321,8 +321,6 @@ public class ToppingTradePrice extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Invalid szid", Toast.LENGTH_SHORT).show();
         }
-
         db.close();
     }
-
 }
