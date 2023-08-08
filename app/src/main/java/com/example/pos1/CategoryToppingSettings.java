@@ -22,7 +22,6 @@ public class CategoryToppingSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_topping_settings);
 
-
         tableLayoutCategories = findViewById(R.id.tableLayoutCategories);
         tableLayoutToppings = findViewById(R.id.tableLayoutToppings);
 

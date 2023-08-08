@@ -6,11 +6,11 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -19,6 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
@@ -30,23 +31,31 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+
+import com.google.android.material.navigation.NavigationView;
+
 public class MainActivity extends AppCompatActivity {
 
-    AppCompatButton mangerButton, eatInButton,pickupButton,deliveryButton,counterButton;
+    AppCompatButton eatInButton,pickupButton,deliveryButton,counterButton;
     Button changeStatusButton;
     private TableRow selectedRow;
     private List<String> selectedFilters = new ArrayList<>();
     TableLayout tableLayout;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mangerButton = findViewById(R.id.mangerButton);
+
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         eatInButton = findViewById(R.id.eatInButton);
         changeStatusButton = findViewById(R.id.changeStatusButton);
@@ -54,14 +63,34 @@ public class MainActivity extends AppCompatActivity {
         pickupButton = findViewById(R.id.pickupButton);
         deliveryButton = findViewById(R.id.deliveryButton);
         counterButton = findViewById(R.id.counterButton);
-//        databaseHelper.addOdersSampleData();
-        mangerButton.setOnClickListener(new View.OnClickListener() {
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navigationView);
+        drawerToggle = new ActionBarDrawerToggle(
+                this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
+
+        // Set the ActionBarDrawerToggle as the drawer listener
+        drawerLayout.addDrawerListener(drawerToggle);
+
+        // Enable the back arrow in the action bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        // Set the navigation item click listener
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Manager.class);
-                startActivity(intent);
+            public boolean onNavigationItemSelected(MenuItem item) {
+                // Handle navigation item clicks here
+                switch (item.getItemId()) {
+                    case R.id.nav_manger:
+                        openManagerActivity();
+                        return true;
+                    // Handle other menu items if needed
+                }
+                // Close the drawer when an item is selected
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
             }
         });
+
         pickupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -446,7 +475,6 @@ public class MainActivity extends AppCompatActivity {
 
                 customerCursor.close();
 
-
                 // Check if the order meets all selected filter conditions
                 boolean meetsAllFilters = true;
                 for (String filter : selectedFilters) {
@@ -602,6 +630,9 @@ public class MainActivity extends AppCompatActivity {
     private void addHeadingTextView (TableRow row, String text){
         TextView textView = new TextView(this);
         textView.setText(text);
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(16);
+        textView.setTypeface(null, Typeface.BOLD);
         textView.setPadding(16, 16, 16, 16);
         textView.setTypeface(null, Typeface.BOLD);
         row.addView(textView);
@@ -609,6 +640,8 @@ public class MainActivity extends AppCompatActivity {
     private void addDataTextView (TableRow row, String text){
         TextView textView = new TextView(this);
         textView.setText(text);
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(16);
         textView.setPadding(16, 16, 16, 16);
         row.addView(textView);
     }
@@ -618,4 +651,34 @@ public class MainActivity extends AppCompatActivity {
         row.addView(editButton);
     }
 
+    private void openManagerActivity() {
+        Intent intent = new Intent(this, Manager.class);
+        startActivity(intent);
+    }
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle other menu items if needed
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            // Close the drawer when the back button is pressed
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
