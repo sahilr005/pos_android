@@ -20,7 +20,7 @@
             android:id="@+id/scrollViewCategories"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="0.4">
 
             <TableLayout
                 android:id="@+id/tableLayoutCategories"
@@ -31,20 +31,22 @@
         </ScrollView>
 
         <!-- Part 2: Display all tname values for a selected catname -->
-        <ScrollView
-            android:id="@+id/scrollViewToppings"
+        <GridView
+            android:id="@+id/gridViewToppings"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:numColumns="auto_fit"
+            android:columnWidth="100dp"
+            android:horizontalSpacing="8dp"
+            android:verticalSpacing="8dp"
+            android:stretchMode="columnWidth" />
 
-            <TableLayout
-                android:id="@+id/tableLayoutToppings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:stretchColumns="*" />
-
-        </ScrollView>
-
+        <View
+            android:id="@+id/selectedCategoryBackground"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/teal" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

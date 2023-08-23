@@ -1,5 +1,4 @@
 package com.example.pos1;
-
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;

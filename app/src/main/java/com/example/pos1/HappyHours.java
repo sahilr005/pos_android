@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,7 +52,6 @@ public class HappyHours extends AppCompatActivity {
         toDayEditText = findViewById(R.id.toDayEditText);
         timeFromEditText = findViewById(R.id.timeFromEditText);
         timeToEditText = findViewById(R.id.timeToEditText);
-
 
         fromDayEditText.setInputType(InputType.TYPE_NULL);
         toDayEditText.setInputType(InputType.TYPE_NULL);
@@ -181,8 +181,8 @@ public class HappyHours extends AppCompatActivity {
 
         while (cursor.moveToNext()) {
             @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("id"));
-            @SuppressLint("Range") String from_day = cursor.getString(cursor.getColumnIndex("from_day"));
-            @SuppressLint("Range") String to_day = cursor.getString(cursor.getColumnIndex("to_day"));
+            @SuppressLint("Range") String from_day = cursor.getString(cursor.getColumnIndex("date_from"));
+            @SuppressLint("Range") String to_day = cursor.getString(cursor.getColumnIndex("date_to"));
             @SuppressLint("Range") String time_from = cursor.getString(cursor.getColumnIndex("time_from"));
             @SuppressLint("Range") String time_to = cursor.getString(cursor.getColumnIndex("time_to"));
 
@@ -220,13 +220,12 @@ public class HappyHours extends AppCompatActivity {
         // Insert the happy hours data into the database
         SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
         ContentValues values = new ContentValues();
-        values.put("from_day", fromDay);
-        values.put("to_day", toDay);
+        values.put("date_from", fromDay);
+        values.put("date_to", toDay);
         values.put("time_from", timeFrom);
         values.put("time_to", timeTo);
 
         long result = db.insert("happy_hours", null, values);
-        db.close();
 
         if (result != -1) {
             Toast.makeText(this, "Happy Hours created successfully", Toast.LENGTH_SHORT).show();
@@ -240,6 +239,8 @@ public class HappyHours extends AppCompatActivity {
             tableLayout.removeAllViews();
             createTableHeading();
             displayTableData();
+            db.close();
+
         } else {
             Toast.makeText(this, "Failed to create Happy Hours", Toast.LENGTH_SHORT).show();
         }

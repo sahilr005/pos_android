@@ -431,7 +431,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout7">
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button17"
+                    android:id="@+id/buttonSettingsBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
@@ -584,14 +584,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout9">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button24"
+                    android:id="@+id/customersBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:textSize="18sp"
                     android:layout_weight="1"
                     android:drawableRight="@drawable/ic_action_upload_with_circle_background"
-
                     android:background="@drawable/buttonshap"
                     android:text="Customers"
                     android:textColor="@color/black" />

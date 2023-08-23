@@ -14,7 +14,7 @@ import android.view.View;
 
 public class Manager extends AppCompatActivity {
 
-    AppCompatButton categoryMaster,toppingMaster,uploadItems,UploadToppings,ItemMaster,SizeBase,CategorySizeSettings,SizeBaseSettingBtn,CategoryToppingSettings,comboMasterBtn,happyHoursBtn,toppingTradePrice,staffScreenBtn,securitySettingsBtn;
+    AppCompatButton categoryMaster,toppingMaster,uploadItems,UploadToppings,ItemMaster,SizeBase,CategorySizeSettings,SizeBaseSettingBtn,CategoryToppingSettings,comboMasterBtn,happyHoursBtn,toppingTradePrice,staffScreenBtn,securitySettingsBtn,buttonSettingsBtn,customersBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +33,8 @@ public class Manager extends AppCompatActivity {
         toppingTradePrice = findViewById(R.id.ToppingTradePriceBtn);
         staffScreenBtn = findViewById(R.id.staffScreenBtn);
         securitySettingsBtn = findViewById(R.id.securitySettingsBtn);
+        buttonSettingsBtn = findViewById(R.id.buttonSettingsBtn);
+        customersBtn = findViewById(R.id.customersBtn);
 
         modifyButtonDrawable(categoryMaster, R.color.cold, R.drawable.ic_baseline_category_24);
         modifyButtonDrawable(ItemMaster, R.color.deep_sky_blue, R.drawable.ic_baseline_notes_24);
@@ -47,6 +49,9 @@ public class Manager extends AppCompatActivity {
         modifyButtonDrawable(staffScreenBtn, R.color.deep_sky_blue, R.drawable.ic_baseline_category_24);
         modifyButtonDrawable(securitySettingsBtn, R.color.cold, R.drawable.ic_baseline_category_24);
         modifyButtonDrawable(toppingTradePrice, R.color.cold, R.drawable.ic_baseline_category_24);
+        modifyButtonDrawable(buttonSettingsBtn, R.color.cold, R.drawable.ic_baseline_category_24);
+
+        modifyButtonDrawable(customersBtn, R.color.deep_sky_blue, R.drawable.ic_baseline_person_24);
 
         categoryMaster.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +150,20 @@ public class Manager extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Manager.this,SecuritySettings.class);
+                startActivity(intent);
+            }
+        });
+        buttonSettingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Manager.this,ButtonSettings.class);
+                startActivity(intent);
+            }
+        });
+        customersBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Manager.this,Customer.class);
                 startActivity(intent);
             }
         });

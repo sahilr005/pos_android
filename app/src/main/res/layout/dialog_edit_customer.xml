@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textSize="18dp"
+        android:paddingTop="10dp"
+        />
+    <EditText
+        android:id="@+id/CDeditName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
+        android:paddingLeft="10dp"
+        android:minHeight="48dp"
+        android:hint="Name" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone No."
+        android:textSize="18dp"
+        android:paddingTop="10dp"
+        />
+    <EditText
+        android:id="@+id/CDeditPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_background"
+        android:paddingLeft="10dp"
+        android:minHeight="48dp"
+        android:hint="Phone" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="18dp"
+        android:paddingTop="10dp"
+        />
+    <EditText
+        android:id="@+id/CDeditEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_background"
+        android:paddingLeft="10dp"
+        android:minHeight="48dp"
+        android:hint="Email" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Points"
+        android:textSize="18dp"
+        android:paddingTop="10dp"
+        />
+    <EditText
+        android:id="@+id/CDeditPoints"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_background"
+        android:paddingLeft="10dp"
+        android:minHeight="48dp"
+        android:hint="Points" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Addres 1"
+        android:textSize="18dp"
+        android:paddingTop="10dp"
+        />
+    <EditText
+        android:id="@+id/CDeditAddr1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_background"
+        android:paddingLeft="10dp"
+        android:minHeight="48dp"
+        android:hint="Address 1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Suburb"
+        android:textSize="18dp"
+        android:paddingTop="10dp"
+        />
+    <EditText
+        android:id="@+id/CDeditSuburb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_background"
+        android:paddingLeft="10dp"
+        android:minHeight="48dp"
+        android:hint="Suburb" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Post Code"
+        android:textSize="18dp"
+        android:paddingTop="10dp"
+        />
+    <EditText
+        android:id="@+id/CDeditPostCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_background"
+        android:paddingLeft="10dp"
+        android:minHeight="48dp"
+        android:hint="Post Code" />
+</LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -16,6 +16,20 @@
         android:theme="@style/Theme.Pos1"
         tools:targetApi="33">
         <activity
+            android:name=".Customer"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ButtonSettings"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AddSecurityProfile"
             android:exported="false">
             <meta-data
