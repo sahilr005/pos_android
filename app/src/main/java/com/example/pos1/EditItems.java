@@ -2,6 +2,7 @@ package com.example.pos1;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,6 +19,7 @@ import com.google.android.flexbox.FlexboxLayout;
 public class EditItems extends AppCompatActivity {
     private int selectedButton = 1;
 
+    @SuppressLint("Range")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,8 @@ public class EditItems extends AppCompatActivity {
         EditText editTextPickupPrice = findViewById(R.id.editTextPickupPrice);
         EditText editTextDeliveryPrice = findViewById(R.id.editTextDeliveryPrice);
         EditText editTextEatInPrice = findViewById(R.id.editTextEatInPrice);
-        FlexboxLayout chipContainer = findViewById(R.id.chipContainer);
+        FlexboxLayout chipToppingContainer = findViewById(R.id.chipContainer);
+        FlexboxLayout chipToppingExtra = findViewById(R.id.chipToppingExtra);
 
         int itemId = getIntent().getIntExtra("itemId", -1);
 
@@ -59,14 +62,36 @@ public class EditItems extends AppCompatActivity {
                     boolean isSelected = selectedChip.isChecked();
                     if (isSelected) {
                         updateContain(view, itemId);
-                        // Chip is selected
-                        // Perform desired action
                     } else {
                         removeContainTopping(toppingId, itemId);
                     }
                 }
             });
-            chipContainer.addView(chip);
+            chipToppingContainer.addView(chip);
+        }   while (toppingCursor.moveToNext()) {
+            int toppingId = toppingCursor.getInt(toppingCursor.getColumnIndex("tid"));
+            String toppingName = toppingCursor.getString(toppingCursor.getColumnIndex("tname"));
+
+            Chip chip = new Chip(this);
+            chip.setText(toppingName);
+            chip.setClickable(true);
+            chip.setCheckable(true);
+            chip.setTag(toppingId);
+
+            chip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Chip selectedChip = (Chip) view;
+                    boolean isSelected = selectedChip.isChecked();
+                    if (isSelected) {
+                        updateContain(view, itemId);
+                    } else {
+                        removeContainTopping(toppingId, itemId);
+                    }
+                }
+            });
+
+            chipToppingExtra.addView(chip);
         }
 
         buttonContains.setBackgroundColor(getResources().getColor(R.color.purple_500));
@@ -75,11 +100,12 @@ public class EditItems extends AppCompatActivity {
             public void onClick(View v) {
                 buttonContains.setBackgroundColor(getResources().getColor(R.color.purple_500));
                 selectedButton = 1;
-
                 buttonExtra.setBackgroundColor(Color.GRAY);
                 buttonSelectAny.setBackgroundColor(Color.GRAY);
                 buttonPrice.setBackgroundColor(Color.GRAY);
-                }
+                chipToppingExtra.setVisibility(View.GONE);
+                chipToppingContainer.setVisibility(View.VISIBLE);
+            }
         });
 
         buttonExtra.setOnClickListener(new View.OnClickListener() {
@@ -91,12 +117,8 @@ public class EditItems extends AppCompatActivity {
                 buttonContains.setBackgroundColor(Color.GRAY);
                 buttonSelectAny.setBackgroundColor(Color.GRAY);
                 buttonPrice.setBackgroundColor(Color.GRAY);
-                  // Clear the selection on chip click for "Extra" button
-                for (int i = 0; i < chipContainer.getChildCount(); i++) {
-                    Chip chip = (Chip) chipContainer.getChildAt(i);
-                    chip.setChecked(false);
-                }
-
+                chipToppingContainer.setVisibility(View.GONE);
+                chipToppingExtra.setVisibility(View.VISIBLE);
             }
         });
 
@@ -240,6 +262,7 @@ public class EditItems extends AppCompatActivity {
             }
         }
     }
+    @SuppressLint("Range")
     private void removeContainTopping(int toppingId, int itemId) {
         SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
 
@@ -269,6 +292,4 @@ public class EditItems extends AppCompatActivity {
         cursor.close();
         db.close();
     }
-
-
 }

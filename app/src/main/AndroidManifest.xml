@@ -16,6 +16,14 @@
         android:theme="@style/Theme.Pos1"
         tools:targetApi="33">
         <activity
+            android:name=".OrderDetails"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Customer"
             android:exported="false">
             <meta-data
