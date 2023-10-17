@@ -1,8 +1,6 @@
 package com.example.pos1;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -25,7 +23,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 public class ItemMaster extends AppCompatActivity {
 
     @Override
@@ -40,12 +37,8 @@ public class ItemMaster extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
                 String searchQuery = editTextSearch.getText().toString();
@@ -115,7 +108,6 @@ public class ItemMaster extends AppCompatActivity {
             @SuppressLint("Range") String column5Value = cursor.getString(cursor.getColumnIndex("eat_in_price"));
             @SuppressLint("Range") int isActive = cursor.getInt(cursor.getColumnIndex("status"));
             AppCompatButton column7Button = createTableCellButton("Edit", false);
-
 
             column7Button.setOnClickListener(new View.OnClickListener() {
                 @Override

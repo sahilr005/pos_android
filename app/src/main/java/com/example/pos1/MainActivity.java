@@ -12,10 +12,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -50,13 +53,15 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        databaseHelper = new DatabaseHelper(this);
+
         eatInButton = findViewById(R.id.eatInButton);
         changeStatusButton = findViewById(R.id.changeStatusButton);
         tableLayout = findViewById(R.id.DashBoardOrdersTableLayout);
@@ -67,6 +72,28 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.navigationView);
         drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
+
+        Spinner spinnerEatIn = findViewById(R.id.spinnerEatIn);
+        Spinner spinnerCounter = findViewById(R.id.spinnerCounter);
+        Spinner spinnerPickup = findViewById(R.id.spinnerPickup);
+        Spinner spinnerDelivery = findViewById(R.id.spinnerDelivery);
+
+        ArrayAdapter<CharSequence> eatInspinnerAdapter = ArrayAdapter.createFromResource(this, R.array.earIn_filters, android.R.layout.simple_spinner_item);
+        eatInspinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<CharSequence> pickUpSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.pickUp_filters, android.R.layout.simple_spinner_item);
+        pickUpSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<CharSequence> deliverySpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.delivery_filters, android.R.layout.simple_spinner_item);
+        deliverySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<CharSequence> counterSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.counter_filters, android.R.layout.simple_spinner_item);
+        counterSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerEatIn.setAdapter(eatInspinnerAdapter);
+        spinnerCounter.setAdapter(counterSpinnerAdapter);
+        spinnerPickup.setAdapter(pickUpSpinnerAdapter);
+        spinnerDelivery.setAdapter(deliverySpinnerAdapter);
 
         // Set the ActionBarDrawerToggle as the drawer listener
         drawerLayout.addDrawerListener(drawerToggle);
@@ -106,7 +133,9 @@ public class MainActivity extends AppCompatActivity {
         counterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPickupDialog("Counter");
+                Intent intent = new Intent(MainActivity.this, OrderDetails.class);
+                startActivity(intent);
+//                showPickupDialog("Counter");
             }
         });
         eatInButton.setOnClickListener(new View.OnClickListener() {
@@ -115,93 +144,6 @@ public class MainActivity extends AppCompatActivity {
                 showPickupDialog("EatIn");
             }
         });
-////         --- sample data add
-//        eatInButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Add this code snippet to a method where you want to insert sample data
-//
-//// Sample data for order_data table
-//                String[] orderDates = {"2023-07-18"};
-//                long[] customerIds = {1};
-//                String[] orderTypes = {"EatIn"};
-//                double[] orderCosts = {50.00};
-//                String[] orderStatuses = {"Pay Later"};
-//                double[] webFrees = {5.00};
-//                double[] gsts = {7.50};
-//                double[] delCosts = {3.00};
-//                double[] discounts = {0.00};
-//                String[] cNotes = {"" };
-//                String[] suburbs = {"New York"};
-//                String[] payModes = { "Cash"};
-//                String[] txnIds = { "987654321"};
-//                String[] paymentStatuses = {"Completed"};
-//                String[] paymentTypes = { "Cash"};
-//                String[] payerStatuses = {"Verified"};
-//                String[] payerEmails = {"john@example.com"};
-//                double[] redeemAmts = {0.00};
-//                String[] couponCodes = {""};
-//                String[] dvDates = {"2023-07-19"};
-//                String[] uentDts = {"2023-07-18 12:00:00"};
-//                double[] cashAmts = {30.00};
-//                double[] eftposAmts = {20.00};
-//                String[] serverTypes = {"Regular"};
-//                double[] refundAmts = {0.00};
-//                String[] refundTypes = {""};
-//                String[] refundNotes = {""};
-//                String[] refundDates = {""};
-//                String[] eDates = {"2023-07-19"};
-//                boolean[] onAccounts = {true};
-//                double[] surchargeCosts = {0.00};
-//                double[] payCosts = {0.00};
-//
-//                // Open the database for writing
-//                SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
-//
-//                // Loop through the sample data arrays and insert the data into the order_data table
-//                for (int i = 0; i < orderDates.length; i++) {
-//                    ContentValues values = new ContentValues();
-//                    values.put("odate", orderDates[i]);
-//                    values.put("custid", customerIds[i]);
-//                    values.put("ordertype", orderTypes[i]);
-//                    values.put("ordercost", orderCosts[i]);
-//                    values.put("order_status", orderStatuses[i]);
-//                    values.put("webfree", webFrees[i]);
-//                    values.put("gst", gsts[i]);
-//                    values.put("delcost", delCosts[i]);
-//                    values.put("discount", discounts[i]);
-//                    values.put("cnote", cNotes[i]);
-//                    values.put("suburb", suburbs[i]);
-//                    values.put("paymode", payModes[i]);
-//                    values.put("txn_id", txnIds[i]);
-//                    values.put("payment_status", paymentStatuses[i]);
-//                    values.put("payment_type", paymentTypes[i]);
-//                    values.put("payer_status", payerStatuses[i]);
-//                    values.put("payer_email", payerEmails[i]);
-//                    values.put("redeem_amt", redeemAmts[i]);
-//                    values.put("coupon_code", couponCodes[i]);
-//                    values.put("dvdate", dvDates[i]);
-//                    values.put("uent_dt", uentDts[i]);
-//                    values.put("cashamt", cashAmts[i]);
-//                    values.put("eftpos", eftposAmts[i]);
-//                    values.put("server_type", serverTypes[i]);
-//                    values.put("refund_amt", refundAmts[i]);
-//                    values.put("refund_type", refundTypes[i]);
-//                    values.put("refund_note", refundNotes[i]);
-//                    values.put("refund_date", refundDates[i]);
-//                    values.put("edate", eDates[i]);
-//                    values.put("onaccount", onAccounts[i]);
-//                    values.put("surcharge_cost", surchargeCosts[i]);
-//                    values.put("paycost", payCosts[i]);
-//
-//                    db.insert("order_data", null, values);
-//                }
-//
-//                // Close the database after inserting data
-//                db.close();
-//                displayTableData();
-//            }
-//        });
 
         LinearLayout statusButtonsContainer = findViewById(R.id.statusButtonsContainer);
 
@@ -355,10 +297,6 @@ public class MainActivity extends AppCompatActivity {
             selectedFilters.remove("All Orders");
 
         } else if (filterType.equals("Active Orders") || filterType.equals("Completed")) {
-            // For "Active Orders" and "Completed," allow only single selection
-//            selectedFilters.remove("All Orders");
-//            selectedFilters.remove("Active Orders");
-//            selectedFilters.remove("Completed");
             selectedFilters.clear();
 
             selectedFilters.add(filterType);
@@ -414,8 +352,8 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("Range")
     private void displayTableData() {
-//        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+//        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
         Log.d("kkkn", "displayTableData0000: ");
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM order_data");
         if (!selectedFilters.isEmpty() && !selectedFilters.contains("All Orders")) {
@@ -516,7 +454,7 @@ public class MainActivity extends AppCompatActivity {
                     addDataTextView(dataRow, payment_status);
                     addDataTextView(dataRow, orderDate);
                     addDataTextView(dataRow, "--");
-                    createActionButton(dataRow, "Edit");
+                    createActionButton(dataRow, "Edit", customerId);
 
                     // Set the OnClickListener for each data row
                     dataRow.setOnClickListener(new View.OnClickListener() {
@@ -645,9 +583,17 @@ public class MainActivity extends AppCompatActivity {
         textView.setPadding(16, 16, 16, 16);
         row.addView(textView);
     }
-    private void createActionButton (TableRow row, String text){
+    private void createActionButton (TableRow row, String text, long customerId){
         AppCompatButton editButton = new AppCompatButton(this, null);
         editButton.setText(text);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, OrderDetails.class);
+                intent.putExtra("customerId", customerId);
+                startActivity(intent);
+            }
+        });
         row.addView(editButton);
     }
 

@@ -200,15 +200,28 @@ public class UploadItems extends AppCompatActivity {
         return dateFormat.format(calendar.getTime());
     }
     private void insertCSVDataIntoDatabase() {
-
         SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS item_master (tid INTEGER PRIMARY KEY AUTOINCREMENT,cat_id TEXT,code TEXT, name TEXT,status INT DEFAULT 1,pickup_price TEXT,delivery_price TEXT,eat_in_price TEXT,cost_price TEXT,stock TEXT,min_stock TEXT,item_img TEXT,bar_code TEXT,descc TEXT,contain TEXT,extra TEXT,prices TEXT, created_at TEXT, server_check INTEGER DEFAULT 0, deactive_dt TEXT,is_combo BOOLEAN DEFAULT (0),itmtxt VARCHAR (120), btn_bg_color VARCHAR (10), btn_font_color VARCHAR (10))");
         String current_dt = getCurrentDateTime();
+
         // Start the loop from index 1 to skip the first row
         for (int i = 1; i < csvData.size(); i++) {
             List<String> row = csvData.get(i);
             ContentValues values = new ContentValues();
             ContentValues valuesForCategory = new ContentValues();
+            String categoryName = getValueAtIndex(row, 1); // Get the category name from the CSV data
+
+            // Query the category_mast table to get the corresponding cat_id
+            String[] projection = {"catid"};
+            String selection = "catname = ?";
+            String[] selectionArgs = {categoryName};
+            Cursor cursor = db.query("category_mast", projection, selection, selectionArgs, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                String catId = cursor.getString(cursor.getColumnIndex("catid"));
+                values.put("cat_id", catId); // Set the cat_id in item_master table
+            }
+
             values.put("code", getValueAtIndex(row, 1));
             values.put("name", getValueAtIndex(row, 0));
             values.put("status", 1);
@@ -217,21 +230,25 @@ public class UploadItems extends AppCompatActivity {
             values.put("pickup_price", getValueAtIndex(row, 4));
             values.put("descc", getValueAtIndex(row, 5));
             values.put("server_check", 0);
-            valuesForCategory.put("catname", getValueAtIndex(row, 1));
+
+            valuesForCategory.put("catname", categoryName); // Set the category name in category_mast table
             valuesForCategory.put("description", getValueAtIndex(row, 5));
             valuesForCategory.put("is_active", 1);
             valuesForCategory.put("uentdt", current_dt);
 
             long result = db.insert("item_master", null, values);
             long result2 = db.insert("category_mast", null, valuesForCategory);
-//
-//            if (result == -1) {
-//                // Failed to insert row, handle the error
-//                Toast.makeText(this, "Failed to insert row", Toast.LENGTH_SHORT).show();
-//            } if (result2 == -1) {
-//                // Failed to insert row, handle the error
-//                Toast.makeText(this, "Failed to insert row In Category", Toast.LENGTH_SHORT).show();
-//            }
+
+            cursor.close();
+
+            if (result == -1) {
+                // Failed to insert row in item_master table, handle the error
+                Toast.makeText(this, "Failed to insert row in item_master", Toast.LENGTH_SHORT).show();
+            }
+            if (result2 == -1) {
+                // Failed to insert row in category_mast table, handle the error
+                Toast.makeText(this, "Failed to insert row in category_mast", Toast.LENGTH_SHORT).show();
+            }
         }
 
         db.close();
@@ -240,6 +257,7 @@ public class UploadItems extends AppCompatActivity {
         tableLayout.removeAllViews();
         csvData = null;
     }
+
 
     private String getValueAtIndex(List<String> row, int index) {
         if (index >= 0 && index < row.size()) {

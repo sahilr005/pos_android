@@ -230,6 +230,85 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Handle database upgrades if needed
     }
 
+//    public List<ItemModel> getAllItems() {
+//        List<ItemModel> itemList = new ArrayList<>();
+//
+//        SQLiteDatabase db = this.getReadableDatabase();
+//
+//        String[] projection = {
+//                "tid", "cat_id", "code", "name", "status", // Add other columns as needed
+//        };
+//
+//        // Query the item_master table
+//        Cursor cursor = db.query(
+//                "item_master",  // Table name
+//                projection,     // Columns to retrieve
+//                null,           // Selection (null retrieves all rows)
+//                null,           // SelectionArgs (not used here)
+//                null,           // GroupBy (not used here)
+//                null,           // Having (not used here)
+//                null            // OrderBy (not used here)
+//        );
+//
+//        // Iterate through the cursor and populate the itemList
+//        if (cursor != null) {
+//            while (cursor.moveToNext()) {
+//                ItemModel item = new ItemModel();
+//                item.setTid(cursor.getInt(cursor.getColumnIndex("tid")));
+//                item.setCatId(cursor.getString(cursor.getColumnIndex("cat_id")));
+//                item.setCode(cursor.getString(cursor.getColumnIndex("code")));
+//                item.setName(cursor.getString(cursor.getColumnIndex("name")));
+//                // Set other fields as needed
+//
+//                itemList.add(item);
+//            }
+//            cursor.close();
+//        }
+//
+//        db.close();
+//
+//        return itemList;
+//    }
+    @SuppressLint("Range")
+    private List<CategoryModel> fetchCategoriesFromDatabase() {
+    List<CategoryModel> categoryList = new ArrayList<>();
+
+    // Assuming you have a DatabaseHelper instance
+
+
+    // Replace "your_category_table_name" with the actual table name
+    String query = "SELECT catid, catname FROM category_mast";
+
+    // Assuming you have a SQLiteDatabase instance
+    SQLiteDatabase db = this.getReadableDatabase();
+
+    Cursor cursor = null;
+
+    try {
+        cursor = db.rawQuery(query, null);
+
+        // Iterate through the cursor to retrieve category data
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int catid = cursor.getInt(cursor.getColumnIndex("catid"));
+                String catname = cursor.getString(cursor.getColumnIndex("catname"));
+
+                // Create a CategoryModel object and add it to the list
+                CategoryModel category = new CategoryModel(catid, catname);
+                categoryList.add(category);
+            } while (cursor.moveToNext());
+        }
+    } finally {
+        if (cursor != null) {
+            cursor.close();
+        }
+    }
+    // Close the database connection
+    db.close();
+
+    return categoryList;
+}
+
     void addOdersSampleData(){
         String[] orderDates = {"2023-07-18"};
         long[] customerIds = {1};

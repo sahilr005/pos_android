@@ -180,13 +180,13 @@ public class CategorySizeSettings extends AppCompatActivity {
         List<SizeData> sizeList = new ArrayList<>();
 
         SQLiteDatabase db = context.openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
-        String[] columns = {"szid", "szname"};
-        String orderBy = "szid ASC";
+        String[] columns = {"smzid", "szname"};
+        String orderBy = "smzid ASC";
 
         Cursor cursor = db.query("size_mast", columns, null, null, null, null, orderBy);
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") int szid = cursor.getInt(cursor.getColumnIndex("szid"));
+                @SuppressLint("Range") int szid = cursor.getInt(cursor.getColumnIndex("smzid"));
                 @SuppressLint("Range") String szname = cursor.getString(cursor.getColumnIndex("szname"));
                 SizeData sizeData = new SizeData(szid, szname);
                 sizeList.add(sizeData);
@@ -257,7 +257,7 @@ public class CategorySizeSettings extends AppCompatActivity {
 
         Cursor cursor = db.rawQuery("SELECT sbid, category_mast.catname, size_mast.szname FROM size_base_data " +
                 "JOIN category_mast ON size_base_data.catid = category_mast.catid " +
-                "JOIN size_mast ON size_base_data.szid = size_mast.szid", null);
+                "JOIN size_mast ON size_base_data.szid = size_mast.smzid", null);
 
         if (tableLayout.getChildCount() > 0) {
             tableLayout.removeAllViews();
