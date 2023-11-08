@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,11 +23,9 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +35,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        String[] eatIn = { "EatIn","Active EatIn","Completed EatIn"};
+        String[] pickup = { "Pickup","Active Pickup","Completed Pickup"};
+        String[] delivery = { "Delivery","Active Delivery","Completed Delivery"};
+        String[] counter = { "Counter","Active Counter","Completed Counter"};
         databaseHelper = new DatabaseHelper(this);
 
         eatInButton = findViewById(R.id.eatInButton);
@@ -78,16 +78,16 @@ public class MainActivity extends AppCompatActivity {
         Spinner spinnerPickup = findViewById(R.id.spinnerPickup);
         Spinner spinnerDelivery = findViewById(R.id.spinnerDelivery);
 
-        ArrayAdapter<CharSequence> eatInspinnerAdapter = ArrayAdapter.createFromResource(this, R.array.earIn_filters, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> eatInspinnerAdapter =new  ArrayAdapter(this, android.R.layout.simple_spinner_item,eatIn);
         eatInspinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        ArrayAdapter<CharSequence> pickUpSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.pickUp_filters, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> pickUpSpinnerAdapter =new  ArrayAdapter(this, android.R.layout.simple_spinner_item,pickup);
         pickUpSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        ArrayAdapter<CharSequence> deliverySpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.delivery_filters, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> deliverySpinnerAdapter = new  ArrayAdapter(this, android.R.layout.simple_spinner_item,delivery);
         deliverySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        ArrayAdapter<CharSequence> counterSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.counter_filters, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> counterSpinnerAdapter = new  ArrayAdapter(this, android.R.layout.simple_spinner_item,counter);
         counterSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerEatIn.setAdapter(eatInspinnerAdapter);
@@ -95,7 +95,111 @@ public class MainActivity extends AppCompatActivity {
         spinnerPickup.setAdapter(pickUpSpinnerAdapter);
         spinnerDelivery.setAdapter(deliverySpinnerAdapter);
 
-        // Set the ActionBarDrawerToggle as the drawer listener
+        spinnerEatIn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedFilter = spinnerEatIn.getSelectedItem().toString();
+                if (selectedFilter.equals("EatIn")) {
+                    toggleFilter("All Orders");
+                    toggleFilter("EatIn");
+                }
+                    if (selectedFilter.equals("Active EatIn")) {
+                    toggleFilter("Active Orders");
+                    toggleFilter("EatIn");
+
+                }
+                if (selectedFilter.equals("Completed EatIn")){
+                    toggleFilter("Completed");
+                    toggleFilter("EatIn");
+                }
+                displayTableData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle the case where nothing is selected if needed
+            }
+        });
+        spinnerCounter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedFilter = spinnerCounter.getSelectedItem().toString();
+                if (selectedFilter.equals("Counter")) {
+                    toggleFilter("All Orders");
+                    toggleFilter("Counter");
+                }
+                if (selectedFilter.equals("Active Counter")) {
+
+                    toggleFilter("Active Orders");
+                    toggleFilter("Counter");
+
+                }
+                if (selectedFilter.equals("Completed Counter")){
+                    toggleFilter("Completed");
+                    toggleFilter("Counter");
+                }
+                displayTableData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle the case where nothing is selected if needed
+            }
+        });
+        spinnerPickup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedFilter = spinnerPickup.getSelectedItem().toString();
+                if (selectedFilter.equals("Pickup")) {
+                    toggleFilter("All Orders");
+                    toggleFilter("Pickup");
+                }
+                if (selectedFilter.equals("Active Pickup")) {
+
+                    toggleFilter("Active Orders");
+                    toggleFilter("Pickup");
+
+                }
+                if (selectedFilter.equals("Completed Pickup")){
+                    toggleFilter("Completed");
+                    toggleFilter("Pickup");
+                }
+                displayTableData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle the case where nothing is selected if needed
+            }
+        });
+        spinnerDelivery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedFilter = spinnerDelivery.getSelectedItem().toString();
+                if (selectedFilter.equals("Delivery")) {
+                    toggleFilter("All Orders");
+                    toggleFilter("Delivery");
+                }
+                if (selectedFilter.equals("Active Delivery")) {
+
+                    toggleFilter("Active Orders");
+                    toggleFilter("Delivery");
+
+                }
+                if (selectedFilter.equals("Completed Delivery")){
+                    toggleFilter("Completed");
+                    toggleFilter("Delivery");
+                }
+                displayTableData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle the case where nothing is selected if needed
+            }
+        });
+
+
         drawerLayout.addDrawerListener(drawerToggle);
 
         // Enable the back arrow in the action bar
@@ -145,19 +249,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        LinearLayout statusButtonsContainer = findViewById(R.id.statusButtonsContainer);
+        LinearLayout statusButtonsContainer1 = findViewById(R.id.statusButtonsContainer1);
 
-        String[] orderTypes = {"All Orders", "Active Orders", "Completed", "EatIn", "Counter", "Pickup", "Delivery"};
+        String[] orderTypesold = {"All Orders", "Active Orders", "Completed", "EatIn", "Counter", "Pickup", "Delivery"};
+        String[] orderTypes = {"All Orders", "Active Orders", "Completed"};
         for (String type : orderTypes) {
-            Button statusButton = new Button(this);
+            AppCompatButton statusButton = new AppCompatButton(this);
             statusButton.setText(type);
             statusButton.setBackgroundResource(R.drawable.button_shape);
-// Set the LayoutParams to add a margin between buttons
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            layoutParams.setMargins(10, 10, 10, 10); // left, top, right, bottom margins
+
+            layoutParams.setMargins(10, 0, 10, 0);
             statusButton.setLayoutParams(layoutParams);
             statusButton.setTextColor(ContextCompat.getColor(this, android.R.color.white));
 
@@ -167,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
                     toggleFilter(type);
                 }
             });
-            statusButtonsContainer.addView(statusButton);
+            statusButtonsContainer1.addView(statusButton);
         }
         changeStatusButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,13 +432,12 @@ public class MainActivity extends AppCompatActivity {
         changeStatusButton.setVisibility(View.GONE);
         updateSelectedStatusButtons();
         displayTableData();
-
     }
 
     private void updateSelectedStatusButtons() {
-        LinearLayout statusButtonsContainer = findViewById(R.id.statusButtonsContainer);
-        for (int i = 0; i < statusButtonsContainer.getChildCount(); i++) {
-            View view = statusButtonsContainer.getChildAt(i);
+        LinearLayout statusButtonsContainer1 = findViewById(R.id.statusButtonsContainer1);
+        for (int i = 0; i < statusButtonsContainer1.getChildCount(); i++) {
+            View view = statusButtonsContainer1.getChildAt(i);
             if (view instanceof Button) {
                 Button button = (Button) view;
                 String buttonText = button.getText().toString();
@@ -363,6 +467,11 @@ public class MainActivity extends AppCompatActivity {
                     queryBuilder.append(" AND");
                 }
                 String filter = selectedFilters.get(i);
+                if (filter.equalsIgnoreCase("Active EatIn")) {
+                    queryBuilder.append(" payment_status <> 'Completed'");
+                    queryBuilder.append(" AND ordertype = 'EatIn'");
+                Log.d("kkkn", "DataFilter- - -- : "+filter);
+                } else {
                 switch (filter.toLowerCase()) { // Make the filter case-insensitive
                     case "active orders":
                         queryBuilder.append(" payment_status <> 'Completed'");
@@ -373,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
                     default:
                         queryBuilder.append(" ordertype = '").append(filter).append("'");
                         break;
-                }
+                }}
             }
         }
         if (selectedFilters.contains("All Orders")) {
@@ -513,20 +622,16 @@ public class MainActivity extends AppCompatActivity {
                         RadioButton selectedRadioButton = dialog.findViewById(selectedRadioButtonId);
                         newStatus = selectedRadioButton.getText().toString();
                     }
-
                     // Update the status in the order_data table using the orderId
                     SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE, null);
                     ContentValues contentValues = new ContentValues();
                     contentValues.put("payment_status", newStatus);
                     db.update("order_data", contentValues, "order_id=?", new String[]{String.valueOf(orderId)});
                     db.close();
-
                     // Close the dialog after updating the status
                     dialog.dismiss();
-
                     // Update the table data to reflect the changes
                     displayTableData();
-
                     // Deselect the row and hide the change status button
                     selectedRow.setBackgroundColor(Color.TRANSPARENT);
                     selectedRow = null;

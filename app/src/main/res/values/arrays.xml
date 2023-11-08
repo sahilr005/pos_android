@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="order_types">
-        <item>EatIn</item>
-        <item>Counter</item>
-        <item>Pickup</item>
-        <item>Delivery</item>
-    </array>
+
 </resources>

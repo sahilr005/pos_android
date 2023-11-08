@@ -247,7 +247,7 @@ public class UploadItems extends AppCompatActivity {
             }
             if (result2 == -1) {
                 // Failed to insert row in category_mast table, handle the error
-                Toast.makeText(this, "Failed to insert row in category_mast", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Failed to insert row in category_mast", Toast.LENGTH_SHORT).show();
             }
         }
 

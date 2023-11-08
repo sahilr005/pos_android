@@ -4,21 +4,4 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
-    <string-array name="earIn_filters">
-        <item>All EatIn</item>
-        <item>Active EatIn</item>
-        <item>Completed EatIn</item>
-    </string-array>    <string-array name="pickUp_filters">
-        <item>All PickUp</item>
-        <item>Active PickUp</item>
-        <item>Completed PickUp</item>
-    </string-array>    <string-array name="delivery_filters">
-        <item>All Delivery</item>
-        <item>Active Delivery</item>
-        <item>Completed Delivery</item>
-    </string-array>    <string-array name="counter_filters">
-        <item>All Counter</item>
-        <item>Active Counter</item>
-        <item>Completed Counter</item>
-    </string-array>
 </resources>

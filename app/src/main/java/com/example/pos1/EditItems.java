@@ -52,7 +52,6 @@ public class EditItems extends AppCompatActivity {
             Chip chip = new Chip(this);
             chip.setText(toppingName);
             chip.setClickable(true);
-            chip.setCheckable(true);
             chip.setTag(toppingId);
 
             chip.setOnClickListener(new View.OnClickListener() {
@@ -67,15 +66,20 @@ public class EditItems extends AppCompatActivity {
                     }
                 }
             });
+
             chipToppingContainer.addView(chip);
-        }   while (toppingCursor.moveToNext()) {
-            int toppingId = toppingCursor.getInt(toppingCursor.getColumnIndex("tid"));
-            String toppingName = toppingCursor.getString(toppingCursor.getColumnIndex("tname"));
+        }
+
+// Create a new cursor for the "Extra" chips
+        Cursor extraToppingCursor = db.rawQuery("SELECT * FROM topping_mast", null);
+
+        while (extraToppingCursor.moveToNext()) {
+            int toppingId = extraToppingCursor.getInt(extraToppingCursor.getColumnIndex("tid"));
+            String toppingName = extraToppingCursor.getString(extraToppingCursor.getColumnIndex("tname"));
 
             Chip chip = new Chip(this);
             chip.setText(toppingName);
             chip.setClickable(true);
-            chip.setCheckable(true);
             chip.setTag(toppingId);
 
             chip.setOnClickListener(new View.OnClickListener() {
@@ -84,15 +88,16 @@ public class EditItems extends AppCompatActivity {
                     Chip selectedChip = (Chip) view;
                     boolean isSelected = selectedChip.isChecked();
                     if (isSelected) {
-                        updateContain(view, itemId);
+                        updateExtra(view, itemId);
                     } else {
-                        removeContainTopping(toppingId, itemId);
+                        removeExtraTopping(toppingId, itemId);
                     }
                 }
             });
 
             chipToppingExtra.addView(chip);
         }
+
 
         buttonContains.setBackgroundColor(getResources().getColor(R.color.purple_500));
         buttonContains.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +108,7 @@ public class EditItems extends AppCompatActivity {
                 buttonExtra.setBackgroundColor(Color.GRAY);
                 buttonSelectAny.setBackgroundColor(Color.GRAY);
                 buttonPrice.setBackgroundColor(Color.GRAY);
-                chipToppingExtra.setVisibility(View.GONE);
+                chipToppingExtra.setVisibility(View.VISIBLE);
                 chipToppingContainer.setVisibility(View.VISIBLE);
             }
         });
@@ -121,7 +126,6 @@ public class EditItems extends AppCompatActivity {
                 chipToppingExtra.setVisibility(View.VISIBLE);
             }
         });
-
 
         buttonSelectAny.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,6 +205,68 @@ public class EditItems extends AppCompatActivity {
                 db.close();
             }
         });
+    }
+
+    // Add this method to your activity class
+    public void updateExtra(View view, int itemId) {
+        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE,null);
+        FlexboxLayout chipContainer = findViewById(R.id.chipToppingExtra);
+        int childCount = chipContainer.getChildCount();
+        StringBuilder extraBuilder = new StringBuilder();
+
+        for (int i = 0; i < childCount; i++) {
+            Chip chip = (Chip) chipContainer.getChildAt(i);
+            if (chip.isChecked()) {
+                int toppingId = (int) chip.getTag();
+                extraBuilder.append(toppingId).append(",");
+            }
+        }
+
+        if (extraBuilder.length() > 0) {
+            extraBuilder.setLength(extraBuilder.length() - 1);
+        }
+
+        String extraValue = extraBuilder.toString();
+
+        ContentValues values = new ContentValues();
+        values.put("extra", extraValue);
+
+        db.update("item_master", values, "tid=?", new String[]{String.valueOf(itemId)});
+        db.close();
+
+        Toast.makeText(this, "Extra value updated", Toast.LENGTH_SHORT).show();
+    }
+
+    // Add this method to your activity class
+    @SuppressLint("Range")
+    public void removeExtraTopping(int toppingId, int itemId) {
+        SQLiteDatabase db = openOrCreateDatabase("mydatabase.db", MODE_PRIVATE,null);
+
+        // Retrieve the current extra value from the item_master table
+        Cursor cursor = db.rawQuery("SELECT extra FROM item_master WHERE tid = ?", new String[]{String.valueOf(itemId)});
+        if (cursor.moveToFirst()) {
+            String extraValue = cursor.getString(cursor.getColumnIndex("extra"));
+
+            // Remove the toppingId from the extraValue string
+            extraValue = extraValue.replace(toppingId + ",", "");
+            extraValue = extraValue.replace("," + toppingId, "");
+            extraValue = extraValue.replace(String.valueOf(toppingId), "");
+
+            // Update the extra column in the item_master table
+            ContentValues values = new ContentValues();
+            values.put("extra", extraValue);
+
+            int rowsAffected = db.update("item_master", values, "tid = ?", new String[]{String.valueOf(itemId)});
+
+            if (rowsAffected > 0) {
+                Toast.makeText(this, "Extra topping removed", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Failed to remove extra topping", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        cursor.close();
+        db.close();
     }
 
     public void updateContain(View view, int itemId) {
